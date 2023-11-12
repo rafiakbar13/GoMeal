@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { IoMdSettings, IoMdNotificationsOutline } from 'react-icons/io'
 import { Avatar, AvatarImage } from '../../components/ui/avatar'
@@ -10,10 +11,14 @@ import Image from 'next/image'
 import { Button } from '../../components/ui/button'
 import Pepproni from '@/public/images/Pizza/pepproni-pizza.png'
 import Coupon from '@/public/icon/Coupon.svg'
-
+import { usePathname } from 'next/navigation'
 const SidebarRight = () => {
+
+    const pathname = usePathname()
+    console.log(pathname);
+
     return (
-        <aside className='w-[550px] py-10 h-full'>
+        <aside className='w-[300px] py-10 h-full'>
             <article className='px-4'>
                 <div className='flex justify-between items-center'>
                     <div className='flex gap-x-4'>
@@ -95,14 +100,24 @@ const SidebarRight = () => {
                         </div>
                     </div>
                     <div className='pt-4'>
-                        <Button className='backdrop-blur-md bg-zinc-100 text-black border-[1.5px] border-primary w-full hover:bg-zinc-100 py-4'>
-                            <Image src={Coupon} alt="Coupon" className='w-8 h-8 rounded mr-3 bg-primary' />
-                            Have a Coupon Code
-                            <BiChevronRight className='ml-3' size={20} />
-                        </Button>
-                        <Button className='bg-primary text-white w-full mt-4 py-4'>
-                            Checkout
-                        </Button>
+                        {pathname === '/delivery' ? (
+                            <Button className="w-full bg-orange-50 border border-orange-300 text-orange-400 hover:bg-orange-50 hover:text-orange-400 text-base font-normal font-['Poppins']">
+                                Delivering To You
+                            </Button>
+                        ) : (
+
+                            <div>
+                                <Button className='backdrop-blur-md bg-zinc-100 text-black border-[1.5px] border-primary w-full hover:bg-zinc-100 py-4'>
+                                    <Image src={Coupon} alt="Coupon" className='w-8 h-8 rounded mr-3 bg-primary' />
+                                    Have a Coupon Code
+                                    <BiChevronRight className='ml-3' size={20} />
+                                </Button>
+                                <Button className='bg-primary text-white w-full mt-4 py-4'>
+                                    Checkout
+                                </Button>
+                            </div>
+                        )}
+
                     </div>
                 </article>
             </article>

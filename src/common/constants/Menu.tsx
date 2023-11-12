@@ -15,7 +15,7 @@ export const MENU: MenuProps[] = [
     {
         name: "Food Order",
         icon: <Image src={Scooter} alt="bakery" />,
-        path: "/food-order"
+        path: "/delivery"
     },
     {
         name: "Favorite",
