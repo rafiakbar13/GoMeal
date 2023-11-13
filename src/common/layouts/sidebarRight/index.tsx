@@ -15,7 +15,8 @@ import { usePathname } from 'next/navigation'
 const SidebarRight = () => {
 
     const pathname = usePathname()
-    console.log(pathname);
+
+    if (pathname === '/favorite' || pathname === '/history') return null
 
     return (
         <aside className='w-[300px] py-10 h-full'>

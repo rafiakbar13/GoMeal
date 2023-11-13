@@ -1,4 +1,4 @@
-import Dashboard from '@/src/module/user/Dashboard/components/Dashboard'
+import Dashboard from '@/src/module/user/Dashboard/index'
 import React from 'react'
 
 type Props = {}

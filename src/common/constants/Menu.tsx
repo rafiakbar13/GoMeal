@@ -25,7 +25,7 @@ export const MENU: MenuProps[] = [
     {
         name: "Order History",
         icon: <Image src={FoodDelivery} alt="bakery" />,
-        path: "/order-history"
+        path: "/history"
     },
     {
         name: "Bills",
