@@ -1,15 +1,12 @@
-export type Bills = {
-    menu: string
-    status: "pending" | "processing" | "completed",
-    date: string,
-    address: string,
-    total: number,
-    payment: string,
-}
-
+import type { Bills } from "../types/Bills"
+import Image from "next/image"
+import Burger from "@/public/images/Burger/Beef-burger.png"
 export const bills: Bills[] = [
     {
-        menu: "Order #1",
+        bills: "Order #1",
+        image: <Image src={Burger} alt="Burger" width={70} />,
+        menu: "Beef Burger",
+        quantity: 2,
         status: "completed",
         date: "12/12/2021",
         address: "123 Main St",

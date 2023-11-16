@@ -1,12 +1,11 @@
 "use client"
-
 import { ColumnDef } from "@tanstack/react-table"
 import { Checkbox } from "@/src/common/components/ui/checkbox"
-import { DataTableColumnHeader } from "./data-table-column-header"
-import type { Bills } from "@/src/common/types/Bills"
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { DataTableRowActions } from "./data-table-row-actions"
-export const columns: ColumnDef<Bills>[] = [
+import type { OrderHistory } from "@/src/common/types/OrderHistory"
+import { DataTableColumnHeader } from "../../Bills/components/data-table-column-header";
+
+export const columns: ColumnDef<OrderHistory>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -25,17 +24,9 @@ export const columns: ColumnDef<Bills>[] = [
         ),
         enableSorting: false,
         enableHiding: false,
-    },
-    {
-        accessorKey: "bills", header: () => (
-            <DataTableColumnHeader
-                title="Bills"
-                className=" text-zinc-950 font-semibold"
-            />
-        )
-    },
-    {
-        accessorKey: "menu", header: () => (
+    }, {
+        accessorKey: "menu",
+        header: () => (
             <DataTableColumnHeader
                 title="Menu"
                 className=" text-zinc-950 font-semibold"
@@ -52,21 +43,7 @@ export const columns: ColumnDef<Bills>[] = [
             </div>
         )
     },
-    {
-        accessorKey: "status",
-        header: () => (
-            <DataTableColumnHeader
-                title="Status"
-                className=" text-zinc-950 font-semibold text-right"
-            />
-        ),
-        cell: ({ row }) => {
-            const status = row.getValue("status") as Bills["status"]
-            return (
-                <span className={`${status === 'completed' ? "bg-lime-50 border border-lime-300 text-lime-500 hover:bg-lime-50 hover:text-lime-500 px-4 py-2 text-right rounded-xl" : ""}`}>{status}</span>
-            )
-        }
-    },
+
     {
         accessorKey: "date", header: () => (
             <DataTableColumnHeader
@@ -84,7 +61,7 @@ export const columns: ColumnDef<Bills>[] = [
             />
         ),
         cell: ({ row }) => {
-            const address = row.getValue("address") as Bills["address"]
+            const address = row.getValue("address") as OrderHistory["address"]
             return (
                 <div className="flex items-center">
                     <FaMapMarkerAlt className="mr-1 text-primary" size={16} />
@@ -117,12 +94,25 @@ export const columns: ColumnDef<Bills>[] = [
         },
     },
     {
-        accessorKey: "payment",
+        accessorKey: "status",
         header: () => (
             <DataTableColumnHeader
-                title="Payment Method"
-                className=" text-zinc-950 font-semibold"
+                title="Status"
+                className=" text-zinc-950 font-semibold text-right"
             />
         ),
+        cell: ({ row }) => {
+            const status = row.getValue("status") as OrderHistory["status"]
+            const statusClassMap: Record<OrderHistory["status"], string> = {
+                completed: "bg-lime-50 border border-lime-300 text-lime-500 hover:bg-lime-50 hover:text-lime-500 px-4 py-2 text-right rounded-xl",
+                pending: "bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-50 hover:text-blue-500 px-4 py-2 text-right rounded-xl",
+                delivering: "bg-yellow-50 border border-yellow-300 text-yellow-500 hover:bg-yellow-50 hover:text-yellow-500 px-4 py-2 text-right rounded-xl",
+                cancelled: "bg-red-50 border border-red-300 text-red-500 hover:bg-red-50 hover:text-red-500 px-4 py-2 text-right rounded-xl",
+            }
+            const statusClassName = statusClassMap[status] || ""
+            return (
+                <span className={statusClassName}>{status}</span>
+            )
+        }
     },
 ]

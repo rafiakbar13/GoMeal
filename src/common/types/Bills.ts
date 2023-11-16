@@ -1,6 +1,9 @@
 export type Bills = {
+    bills: string
+    image: JSX.Element
     menu: string
-    status: "pending" | "processing" | "completed",
+    quantity: number,
+    status: "pending" | "delivering" | "completed",
     date: string,
     address: string,
     total: number,

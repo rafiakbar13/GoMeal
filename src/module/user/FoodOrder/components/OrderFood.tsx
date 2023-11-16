@@ -21,7 +21,7 @@ const OrderFood = (props: Props) => {
                     <Input
                         type="search"
                         placeholder="Search Order"
-                        className="focus-visible:ring-1 focus-visible:ring-primary pl-10 text-xs"
+                        className="focus-visible:ring-1 focus-visible:ring-primary pl-10 text-xs border-0"
                     />
                     <FiSearch
                         className="text-primary absolute left-3 top-1/2 transform -translate-y-1/2"
