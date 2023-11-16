@@ -16,7 +16,7 @@ const SidebarRight = () => {
 
     const pathname = usePathname()
 
-    if (pathname === '/favorite' || pathname === '/history') return null
+    if (pathname === '/favorite' || pathname === '/history' || pathname === '/bills') return null
 
     return (
         <aside className='w-[300px] py-10 h-full'>
