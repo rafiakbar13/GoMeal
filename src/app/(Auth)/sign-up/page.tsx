@@ -9,8 +9,12 @@ import { AiOutlineUser, AiOutlineMail } from 'react-icons/ai'
 import { RiLockPasswordLine } from 'react-icons/ri'
 import { Button } from '@/src/common/components/ui/button'
 import Link from 'next/link'
+import axios from 'axios'
+import { API } from '@/src/services'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
 const RegisterPage = () => {
-
+    const router = useRouter()
     const {
         register,
         handleSubmit,
@@ -19,8 +23,17 @@ const RegisterPage = () => {
         resolver: zodResolver(SignupSchema),
     });
 
-    const onSubmit = (data: SignupSchemaType) => {
-        console.log(data)
+    const onSubmit = async (data: SignupSchemaType) => {
+        try {
+            const response = await axios.post(`${API}/auth/register`, data)
+            if (response.status === 201) {
+                toast.success('Register Success')
+                router.push('/sign-in')
+            }
+        } catch (error) {
+            toast.error('Register Failed')
+            console.log(error);
+        }
     }
 
     return (

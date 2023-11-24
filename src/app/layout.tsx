@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { PoppinsFont } from '../common/style/font'
 import './globals.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import { Providers } from '../common/utils/provider'
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,7 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={PoppinsFont.className}>{children}</body>
+      <body className={PoppinsFont.className}>
+        <Providers>
+          {children}
+          <ToastContainer />
+        </Providers>
+      </body>
     </html>
   )
 }

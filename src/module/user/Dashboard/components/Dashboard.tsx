@@ -6,7 +6,6 @@ import Category from "./Category";
 import PopularDishes from "./PopularDishes";
 import RecentOrder from "./RecentOrder";
 
-
 const Dashboard = () => {
     return (
         <section className="mx-5 my-4">

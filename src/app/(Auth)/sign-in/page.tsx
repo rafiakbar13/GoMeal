@@ -3,24 +3,38 @@ import React from 'react'
 import SignInpImg from '@/public/images/Login.jpg'
 import Image from 'next/image'
 import { useForm } from 'react-hook-form'
-import { SignupSchema, SignupSchemaType } from '@/src/common/lib/types'
+import { LoginSchema, LoginSchemaType } from '@/src/common/lib/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AiOutlineUser, AiOutlineMail } from 'react-icons/ai'
 import { RiLockPasswordLine } from 'react-icons/ri'
 import { Button } from '@/src/common/components/ui/button'
 import Link from 'next/link'
-const LoginPage = () => {
+import { API } from '@/src/services'
+import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
+import axios from 'axios'
 
+const LoginPage = () => {
+    const router = useRouter()
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<SignupSchemaType>({
-        resolver: zodResolver(SignupSchema),
+    } = useForm<LoginSchemaType>({
+        resolver: zodResolver(LoginSchema),
     });
 
-    const onSubmit = (data: SignupSchemaType) => {
-        console.log(data)
+    const onSubmit = async (data: LoginSchemaType) => {
+        try {
+            const response = await axios.post(`${API}/auth/login`, data)
+            if (response.status === 200) {
+                toast.success('Login Success')
+                router.push('/dashboard')
+            }
+        } catch (error) {
+            toast.error('Login Failed')
+            console.log(error);
+        }
     }
 
     return (
