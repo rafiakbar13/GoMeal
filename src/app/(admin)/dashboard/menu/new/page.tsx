@@ -6,10 +6,12 @@ import FormHeader from "@/src/common/components/FormHeader";
 import ImageInput from "@/src/common/components/ImageInput";
 import { useForm } from "react-hook-form";
 import SubmitButton from "@/src/common/components/SubmitButton";
+import { getData } from "@/src/common/lib/categories-service";
 type Props = {};
 
 const NewMenu = (props: Props) => {
   const [imageUrl, setImageUrl] = React.useState("");
+  const [categories, setCategories] = React.useState<any[]>([]);
   const {
     register,
     reset,
@@ -17,9 +19,16 @@ const NewMenu = (props: Props) => {
     handleSubmit,
   } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log(isSubmitted);
+  const fetchCategories = async () => {
+    const categories = await getData("categories");
+    setCategories(categories);
+  };
 
+  React.useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const onSubmit = (data: any) => {
     console.log(data);
   };
   /*
@@ -62,7 +71,7 @@ const NewMenu = (props: Props) => {
             label="Food Name"
             errors={errors}
             register={register}
-            name="foodName"
+            name="name"
             className="w-full"
             type="text"
           />
@@ -86,7 +95,7 @@ const NewMenu = (props: Props) => {
             label="Select Categories"
             name="categories"
             errors={errors}
-            options={Categories}
+            options={categories}
             className="w-full"
             register={register}
           />

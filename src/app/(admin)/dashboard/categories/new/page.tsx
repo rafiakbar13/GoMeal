@@ -5,23 +5,37 @@ import FormHeader from "@/src/common/components/FormHeader";
 import ImageInput from "@/src/common/components/ImageInput";
 import { useForm } from "react-hook-form";
 import SubmitButton from "@/src/common/components/SubmitButton";
-type Props = {};
+import {
+  CreateCategoriesSchema,
+  CreateCategoriesSchemaType,
+} from "@/src/common/lib/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { postRequest } from "@/src/common/lib/api";
+import { useRouter } from "next/navigation";
 
-//  Todo : ImageInput belum masuk ke database, create API
-
-const NewCategories = (props: Props) => {
+const NewCategories = () => {
   const [imageUrl, setImageUrl] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const router = useRouter();
   const {
     register,
     reset,
-    formState: { isSubmitted, errors },
+    formState: { errors },
     handleSubmit,
   } = useForm();
 
   const onSubmit = (data: any) => {
-    console.log(isSubmitted);
-
-    console.log(data);
+    data.image = imageUrl;
+    postRequest({
+      setLoading: setIsLoading,
+      endpoint: "api/categories",
+      data,
+      reset,
+      resourceName: "categories",
+      redirect() {
+        router.push("/dashboard/categories");
+      },
+    });
   };
   /*
     - This page is for the admin to manage categories
@@ -45,7 +59,7 @@ const NewCategories = (props: Props) => {
             label="Name Category"
             errors={errors}
             register={register}
-            name="categoryName"
+            name="name"
             className="w-full"
             type="text"
           />
@@ -57,7 +71,7 @@ const NewCategories = (props: Props) => {
           />
         </div>
         <SubmitButton
-          isLoading={isSubmitted}
+          isLoading={isLoading}
           buttonTitle="Create Categories"
           LoadingButtonTitle="Create Categories please wait..."
         />
