@@ -29,7 +29,6 @@ model User {
 
 model Food {
   id     String  @id @default(uuid())
-  slug   String?  @unique
   name   String
   price  Int
   image  String?

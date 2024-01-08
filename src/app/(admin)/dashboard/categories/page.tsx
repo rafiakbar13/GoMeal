@@ -1,10 +1,16 @@
 import Heading from "@/src/common/components/Heading";
 import PageHeading from "@/src/common/components/PageHeading";
 import React from "react";
+import DataTable from "./_components/data-table";
+import { columns } from "./_components/columns";
+import { getData } from "@/src/common/lib/getData";
+import { Category } from "@prisma/client";
+type Props = {
+  category: Category[];
+};
 
-type Props = {};
-
-const CategoriesPage = (props: Props) => {
+const CategoriesPage = async ({ category }: Props) => {
+  const categories = await getData("categories");
   return (
     <section className="px-10 py-10">
       <Heading
@@ -16,7 +22,7 @@ const CategoriesPage = (props: Props) => {
         linkTitle="Add Categories"
       />
 
-      <div>Table</div>
+      <DataTable columns={columns} data={categories} />
     </section>
   );
 };
