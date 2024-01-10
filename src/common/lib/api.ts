@@ -38,3 +38,14 @@ export const postRequest = async ({
     console.log(error);
   }
 };
+
+export async function deleteData(endpoint: string) {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const response = await axios.delete(`${baseUrl}/api/${endpoint}`);
+    const data = await response.data;
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}

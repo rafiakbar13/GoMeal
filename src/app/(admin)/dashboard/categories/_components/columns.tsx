@@ -5,7 +5,22 @@ import { Checkbox } from "@/src/common/components/ui/checkbox";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
 import { Category, Food } from "@prisma/client";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/src/common/components/ui/dropdown-menu";
 import Image from "next/image";
+import { Button } from "@/src/common/components/ui/button";
+import { MoreHorizontal, RefreshCcw, Trash2 } from "lucide-react";
+import { deleteData } from "@/src/common/lib/api";
+const handleDelete = async (id: string) => {
+  const res = await deleteData(`menu/${id}`);
+  console.log(res);
+};
 export const columns: ColumnDef<Category>[] = [
   {
     id: "select",
@@ -53,5 +68,21 @@ export const columns: ColumnDef<Category>[] = [
       />
     ),
     cell: ({ row }) => <span className="text-right">{row.original.name}</span>,
+  },
+  {
+    accessorKey: "actions",
+    header: () => (
+      <DataTableColumnHeader
+        title="Actions"
+        className=" text-zinc-950 font-semibold text-right"
+      />
+    ),
+    id: "actions",
+    cell: ({ row }) => {
+      const categories = row.original;
+      return (
+        <DataTableRowActions onDelete={() => handleDelete(categories.id)} />
+      );
+    },
   },
 ];

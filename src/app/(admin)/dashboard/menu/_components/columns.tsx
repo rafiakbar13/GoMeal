@@ -6,6 +6,24 @@ import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
 import { Category, Food } from "@prisma/client";
 import Image from "next/image";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/src/common/components/ui/dropdown-menu";
+import { MoreHorizontal, RefreshCcw, Trash2 } from "lucide-react";
+import { Button } from "@/src/common/components/ui/button";
+import { deleteData } from "@/src/common/lib/api";
+import { revalidateTag } from "next/cache";
+
+const handleDelete = async (id: string) => {
+  const res = await deleteData(`menu/${id}`);
+  console.log(res);
+};
+
 export const columns: ColumnDef<Food>[] = [
   {
     id: "select",
@@ -36,7 +54,7 @@ export const columns: ColumnDef<Food>[] = [
     ),
     cell: ({ row }) => (
       <Image
-        src={row.original.image}
+        src={row.original.image || ""}
         className="flex items-center"
         alt={row.original.name}
         width={50}
@@ -53,5 +71,41 @@ export const columns: ColumnDef<Food>[] = [
       />
     ),
     cell: ({ row }) => <span className="text-right">{row.original.name}</span>,
+  },
+  {
+    accessorKey: "price",
+    header: () => (
+      <DataTableColumnHeader
+        title="Price"
+        className=" text-zinc-950 font-semibold text-right"
+      />
+    ),
+    cell: ({ row }) => <span className="text-right">{row.original.price}</span>,
+  },
+  {
+    accessorKey: "category",
+    header: () => (
+      <DataTableColumnHeader
+        title="Category"
+        className=" text-zinc-950 font-semibold text-right"
+      />
+    ),
+    cell: ({ row }) => (
+      <span className="text-right">{row.original.category?.name}</span>
+    ),
+  },
+  {
+    accessorKey: "actions",
+    header: () => (
+      <DataTableColumnHeader
+        title="Actions"
+        className=" text-zinc-950 font-semibold text-right"
+      />
+    ),
+    id: "actions",
+    cell: ({ row }) => {
+      const foods = row.original;
+      return <DataTableRowActions onDelete={() => handleDelete(foods.id)} />;
+    },
   },
 ];
