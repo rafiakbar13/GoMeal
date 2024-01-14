@@ -1,59 +1,60 @@
 "use client";
 import React from "react";
 import FormInput from "@/src/common/components/Form/FormInput";
-import SelectInput from "@/src/common/components/Form/SelectInput";
 import FormHeader from "@/src/common/components/FormHeader";
 import ImageInput from "@/src/common/components/ImageInput";
 import { useForm } from "react-hook-form";
 import SubmitButton from "@/src/common/components/SubmitButton";
+import {
+  CreateCategoriesSchema,
+  CreateCategoriesSchemaType,
+} from "@/src/common/lib/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { putRequest } from "@/src/common/lib/api";
+import { useParams, useRouter } from "next/navigation";
 import { getData } from "@/src/common/lib/getData";
-import { Category } from "@prisma/client";
-import { postRequest } from "@/src/common/lib/api";
-import { useRouter } from "next/navigation";
-type Props = {
-  categories: Category[];
-};
 
-const NewMenuForm = ({ categories }: Props) => {
-  const router = useRouter();
-  const [imageUrl, setImageUrl] = React.useState("");
+const UpdateCategoriesForm = ({ categories }: any) => {
+  const { id } = useParams();
+  const category = categories.filter((category: any) => category.id === id);
+  const [imageUrl, setImageUrl] = React.useState(category[0].image);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const router = useRouter();
+
   const {
     register,
     reset,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm({
+    defaultValues: category[0],
+  });
 
   const onSubmit = (data: any) => {
     data.image = imageUrl;
-    data.price = parseInt(data.price, 10);
-    postRequest({
+    putRequest({
       setLoading: setIsLoading,
-      endpoint: "api/menu",
+      endpoint: `api/categories/${id}`,
       data,
       reset,
-      resourceName: "Menu",
+      resourceName: "categories",
       redirect() {
-        router.push("/dashboard/menu");
+        router.push("/dashboard/categories");
       },
     });
   };
   /*
-    - This page is for the admin to manage menu
-    - id
+    - This page is for the admin to manage categories
     - name
-    - price
     - image
-    - rating (only user can rate)
-    - category
+    - jumlah food yang ada di category tersebut (relasi dengan food)
     - edit
     - delete
 */
 
   return (
     <div className="w-full p-10">
-      <FormHeader title="New Menu" />
+      <FormHeader title="Update Categories" />
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -61,36 +62,13 @@ const NewMenuForm = ({ categories }: Props) => {
       >
         <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
           <FormInput
-            label="Food Name"
+            label="Name Category"
             errors={errors}
             register={register}
             name="name"
             className="w-full"
+            defaultValue={category[0].name}
             type="text"
-          />
-          <FormInput
-            label="Price"
-            errors={errors}
-            register={register}
-            name="price"
-            type="number"
-            className="w-full"
-          />
-          <FormInput
-            label="Description"
-            errors={errors}
-            register={register}
-            name="description"
-            className="w-full"
-            type="text"
-          />
-          <SelectInput
-            label="Select Categories"
-            name="categories"
-            errors={errors}
-            options={categories}
-            className="w-full"
-            register={register}
           />
           <ImageInput
             label="Menu Image"
@@ -101,12 +79,12 @@ const NewMenuForm = ({ categories }: Props) => {
         </div>
         <SubmitButton
           isLoading={isLoading}
-          buttonTitle="Create Menu"
-          LoadingButtonTitle="Create Menu please wait..."
+          buttonTitle="Update Categories"
+          LoadingButtonTitle="Update Categories please wait..."
         />
       </form>
     </div>
   );
 };
 
-export default NewMenuForm;
+export default UpdateCategoriesForm;

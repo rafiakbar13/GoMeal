@@ -4,24 +4,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/src/common/components/ui/checkbox";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
-import { Category, Food } from "@prisma/client";
+import { Food } from "@prisma/client";
 import Image from "next/image";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/src/common/components/ui/dropdown-menu";
-import { MoreHorizontal, RefreshCcw, Trash2 } from "lucide-react";
-import { Button } from "@/src/common/components/ui/button";
-import { deleteData } from "@/src/common/lib/api";
-import { revalidateTag } from "next/cache";
+import { deleteData } from "@/src/common/lib/getData";
 
 const handleDelete = async (id: string) => {
   const res = await deleteData(`menu/${id}`);
-  console.log(res);
+  return res;
 };
 
 export const columns: ColumnDef<Food>[] = [
@@ -104,8 +93,7 @@ export const columns: ColumnDef<Food>[] = [
     ),
     id: "actions",
     cell: ({ row }) => {
-      const foods = row.original;
-      return <DataTableRowActions onDelete={() => handleDelete(foods.id)} />;
+      return <DataTableRowActions row={row} />;
     },
   },
 ];

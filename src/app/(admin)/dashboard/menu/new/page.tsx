@@ -5,7 +5,6 @@ type Props = {};
 
 const MenuPage = async (props: Props) => {
   const categories = await getData("categories");
-  console.log(categories);
 
   return <NewMenuForm categories={categories} />;
 };

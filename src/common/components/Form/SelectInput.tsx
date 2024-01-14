@@ -15,6 +15,7 @@ type SelectInputProps = {
   errors?: any;
   className?: string;
   options: any[];
+  defaultValue?: string;
 };
 
 const SelectInput = ({
@@ -24,6 +25,7 @@ const SelectInput = ({
   errors,
   className = "sm:col-span-2",
   options = [],
+  defaultValue = "",
 }: SelectInputProps) => {
   return (
     <div className={className}>
@@ -38,6 +40,7 @@ const SelectInput = ({
           {...register(`${name}`)}
           id={name}
           name={name}
+          defaultValue={defaultValue}
           className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary focus:outline-none sm:max-w-xs sm:text-sm sm:leading-6 px-2"
         >
           {options.map((option, i) => (

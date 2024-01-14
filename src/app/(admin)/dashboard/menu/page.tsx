@@ -1,3 +1,4 @@
+"use client";
 import Heading from "@/src/common/components/Heading";
 import PageHeading from "@/src/common/components/PageHeading";
 import React from "react";
@@ -9,8 +10,18 @@ type Props = {
   food: Food[] & { category: { name: string } }[];
 };
 
-const MenuPage = async ({ food }: Props) => {
-  const foods = await getData("menu");
+const MenuPage = ({ food }: Props) => {
+  const [foods, setFoods] = React.useState([]);
+
+  const fetchData = async () => {
+    const updatedFoods = await getData("menu");
+    setFoods(updatedFoods);
+  };
+
+  React.useEffect(() => {
+    fetchData();
+  }, []); // Panggil fetchData saat komponen dimount
+
   console.log(foods);
 
   return (

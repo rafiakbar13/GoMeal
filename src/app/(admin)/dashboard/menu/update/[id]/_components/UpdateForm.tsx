@@ -1,23 +1,26 @@
 "use client";
 import React from "react";
 import FormInput from "@/src/common/components/Form/FormInput";
-import SelectInput from "@/src/common/components/Form/SelectInput";
 import FormHeader from "@/src/common/components/FormHeader";
 import ImageInput from "@/src/common/components/ImageInput";
 import { useForm } from "react-hook-form";
 import SubmitButton from "@/src/common/components/SubmitButton";
-import { getData } from "@/src/common/lib/getData";
-import { Category } from "@prisma/client";
-import { postRequest } from "@/src/common/lib/api";
-import { useRouter } from "next/navigation";
-type Props = {
-  categories: Category[];
-};
+import {
+  CreateCategoriesSchema,
+  CreateCategoriesSchemaType,
+} from "@/src/common/lib/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { putRequest } from "@/src/common/lib/api";
+import { useParams, useRouter } from "next/navigation";
+import SelectInput from "@/src/common/components/Form/SelectInput";
 
-const NewMenuForm = ({ categories }: Props) => {
-  const router = useRouter();
-  const [imageUrl, setImageUrl] = React.useState("");
+const UpdateMenuForm = ({ food, categories }: any) => {
+  const { id } = useParams();
+  const menu = food.filter((menu: any) => menu.id === id);
+  const [imageUrl, setImageUrl] = React.useState(menu[0].image);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const router = useRouter();
+
   const {
     register,
     reset,
@@ -28,32 +31,29 @@ const NewMenuForm = ({ categories }: Props) => {
   const onSubmit = (data: any) => {
     data.image = imageUrl;
     data.price = parseInt(data.price, 10);
-    postRequest({
+    putRequest({
       setLoading: setIsLoading,
-      endpoint: "api/menu",
+      endpoint: `api/menu/${id}`,
       data,
       reset,
-      resourceName: "Menu",
+      resourceName: "categories",
       redirect() {
         router.push("/dashboard/menu");
       },
     });
   };
   /*
-    - This page is for the admin to manage menu
-    - id
+    - This page is for the admin to manage categories
     - name
-    - price
     - image
-    - rating (only user can rate)
-    - category
+    - jumlah food yang ada di category tersebut (relasi dengan food)
     - edit
     - delete
 */
 
   return (
     <div className="w-full p-10">
-      <FormHeader title="New Menu" />
+      <FormHeader title="Update Menu" />
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -67,6 +67,7 @@ const NewMenuForm = ({ categories }: Props) => {
             name="name"
             className="w-full"
             type="text"
+            defaultValue={menu[0].name}
           />
           <FormInput
             label="Price"
@@ -75,6 +76,7 @@ const NewMenuForm = ({ categories }: Props) => {
             name="price"
             type="number"
             className="w-full"
+            defaultValue={menu[0].price}
           />
           <FormInput
             label="Description"
@@ -83,6 +85,7 @@ const NewMenuForm = ({ categories }: Props) => {
             name="description"
             className="w-full"
             type="text"
+            defaultValue={menu[0].description}
           />
           <SelectInput
             label="Select Categories"
@@ -91,6 +94,7 @@ const NewMenuForm = ({ categories }: Props) => {
             options={categories}
             className="w-full"
             register={register}
+            defaultValue={menu[0].categories}
           />
           <ImageInput
             label="Menu Image"
@@ -101,12 +105,12 @@ const NewMenuForm = ({ categories }: Props) => {
         </div>
         <SubmitButton
           isLoading={isLoading}
-          buttonTitle="Create Menu"
-          LoadingButtonTitle="Create Menu please wait..."
+          buttonTitle="Update Menu"
+          LoadingButtonTitle="Update Menu please wait..."
         />
       </form>
     </div>
   );
 };
 
-export default NewMenuForm;
+export default UpdateMenuForm;

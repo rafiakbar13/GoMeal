@@ -11,17 +11,21 @@ import {
 } from "@/src/common/components/ui/dropdown-menu";
 import { Button } from "@/src/common/components/ui/button";
 import { MoreHorizontal, RefreshCcw, Trash2 } from "lucide-react";
+import { deleteData } from "@/src/common/lib/getData";
+import { revalidatePath } from "next/cache";
+import Link from "next/link";
 interface DataTableRowActionsProps<TData> {
   row?: Row<TData>;
-  onDelete?: () => void;
-  onUpdate?: () => void;
 }
 
-export const DataTableRowActions = <TData extends {}>({
+export function DataTableRowActions<TData>({
   row,
-  onDelete,
-  onUpdate,
-}: DataTableRowActionsProps<TData>) => {
+}: DataTableRowActionsProps<TData>) {
+  const handleDelete = async (id: string) => {
+    const res = await deleteData(`categories/${id}`);
+    return res;
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -33,22 +37,29 @@ export const DataTableRowActions = <TData extends {}>({
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuItem>
-          <Button variant="destructive" className="w-full" onClick={onDelete}>
+          <Button
+            variant="destructive"
+            className="w-full"
+            onClick={() => handleDelete((row?.original as { id: string })?.id)}
+          >
             <Trash2 className="h-4 w-4" />
             <span className="ml-3">Delete</span>
           </Button>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Button
+          <Link
+            href={`/dashboard/categories/update/${
+              (row?.original as { id: string }).id
+            }`}
             className="w-full bg-sky-500 hover:bg-sky-600"
-            onClick={onUpdate}
+            onClick={() => {}}
           >
             <RefreshCcw className="w-4 h-4" />
             <span className="ml-3">Update</span>
-          </Button>
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
-};
+}

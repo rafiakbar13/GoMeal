@@ -1,9 +1,6 @@
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { toast } from "sonner";
-import { set } from "zod";
-
+import axios from "axios";
+import { revalidatePath } from "next/cache";
 interface MakeRequestParams {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   endpoint: string;
@@ -39,13 +36,28 @@ export const postRequest = async ({
   }
 };
 
-export async function deleteData(endpoint: string) {
+export const putRequest = async ({
+  setLoading,
+  endpoint,
+  data,
+  resourceName,
+  reset,
+  redirect,
+}: MakeRequestParams) => {
   try {
+    setLoading(true);
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    const response = await axios.delete(`${baseUrl}/api/${endpoint}`);
-    const data = await response.data;
-    return data;
+    const response = await axios.put(`${baseUrl}/${endpoint}`, data);
+    if (response.status === 200) {
+      toast.success(`${resourceName} updated successfully`);
+      reset && reset();
+      redirect && redirect();
+    } else {
+      setLoading(false);
+      toast.error(response.data.message);
+    }
   } catch (error) {
+    setLoading(false);
     console.log(error);
   }
-}
+};
