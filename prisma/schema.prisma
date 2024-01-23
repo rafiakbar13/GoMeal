@@ -37,7 +37,7 @@ model Food {
   // quantity Int
   // total    Int
 
-  category   Category? @relation(fields: [categoryId], references: [id])
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   categoryId String
 
   favoritedBy User[] @relation("FavoritedBy")
@@ -55,7 +55,7 @@ model Order {
   paymentMethod   String
   total           Int
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id],onDelete: Cascade, onUpdate: Cascade)
   userId String
   // items           Food[]     @relation("OrderItems", fields: [itemsId], references: [id]) 
 
@@ -75,7 +75,7 @@ model Category {
 
 model Transaction {
   id     Int             @id @default(autoincrement())
-  user   User            @relation(fields: [userId], references: [id])
+  user   User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
   amount Int
   type   TransactionType
