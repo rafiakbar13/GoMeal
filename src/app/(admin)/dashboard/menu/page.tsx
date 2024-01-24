@@ -2,27 +2,16 @@
 import Heading from "@/src/common/components/Heading";
 import PageHeading from "@/src/common/components/PageHeading";
 import React from "react";
-import DataTable from "./_components/data-table";
-import { columns } from "./_components/columns";
+import { DataTable } from "@/src/common/components/data-table/data-table";
+import { columns } from "./columns";
 import { Food } from "@prisma/client";
 import { getData } from "@/src/common/lib/getData";
 type Props = {
   food: Food[] & { category: { name: string } }[];
 };
 
-const MenuPage = ({ food }: Props) => {
-  const [foods, setFoods] = React.useState([]);
-
-  const fetchData = async () => {
-    const updatedFoods = await getData("menu");
-    setFoods(updatedFoods);
-  };
-
-  React.useEffect(() => {
-    fetchData();
-  }, []); // Panggil fetchData saat komponen dimount
-
-  console.log(foods);
+const MenuPage = async ({ food }: Props) => {
+  const foods = await getData("menu");
 
   return (
     <section className="px-10 py-10">

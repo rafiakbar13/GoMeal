@@ -2,16 +2,14 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/src/common/components/ui/checkbox";
-import { DataTableColumnHeader } from "./data-table-column-header";
-import { DataTableRowActions } from "./data-table-row-actions";
+import { DataTableColumnHeader } from "@/src/common/components/data-table/data-table-column-header";
 import { Food } from "@prisma/client";
 import Image from "next/image";
 import { deleteData } from "@/src/common/lib/getData";
-
-const handleDelete = async (id: string) => {
-  const res = await deleteData(`menu/${id}`);
-  return res;
-};
+import ActionColumn from "@/src/common/components/data-table/data-table-columns/ActionColumn";
+import ImageColumn from "@/src/common/components/data-table/data-table-columns/ImageColumn";
+import SortableColumn from "@/src/common/components/data-table/data-table-columns/SortableColumn";
+import DateColumn from "@/src/common/components/data-table/data-table-columns/DateColumn";
 
 export const columns: ColumnDef<Food>[] = [
   {
@@ -41,24 +39,11 @@ export const columns: ColumnDef<Food>[] = [
         className=" text-zinc-950 font-semibold"
       />
     ),
-    cell: ({ row }) => (
-      <Image
-        src={row.original.image || ""}
-        className="flex items-center"
-        alt={row.original.name}
-        width={50}
-        height={50}
-      />
-    ),
+    cell: ({ row }) => <ImageColumn row={row} accessorKey="image" />,
   },
   {
     accessorKey: "name",
-    header: () => (
-      <DataTableColumnHeader
-        title="Name"
-        className=" text-zinc-950 font-semibold text-right"
-      />
-    ),
+    header: ({ column }) => <SortableColumn column={column} title="Name" />,
     cell: ({ row }) => <span className="text-right">{row.original.name}</span>,
   },
   {
@@ -84,6 +69,13 @@ export const columns: ColumnDef<Food>[] = [
     ),
   },
   {
+    accessorKey: "createdAt",
+    header: "Date Created",
+    cell: ({ row }) => {
+      return <DateColumn row={row} accessorKey="createdAt" />;
+    },
+  },
+  {
     accessorKey: "actions",
     header: () => (
       <DataTableColumnHeader
@@ -93,7 +85,13 @@ export const columns: ColumnDef<Food>[] = [
     ),
     id: "actions",
     cell: ({ row }) => {
-      return <DataTableRowActions row={row} />;
+      return (
+        <ActionColumn
+          row={row}
+          title="Menu"
+          endpoint={`menu/${row.original.id}`}
+        />
+      );
     },
   },
 ];

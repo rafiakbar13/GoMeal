@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,77 +8,63 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  fullname String
-  email    String  @unique
-  password String
-  address  String?
-  balance  Int     @default(0)
-
+  id            String        @id @default(uuid())
+  fullname      String
+  email         String        @unique
+  password      String
+  address       String?
+  balance       Int           @default(0)
   role          Role          @default(USER)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   orders        Order[]
-  favoriteFoods Food[]        @relation("FavoritedBy")
   transactions  Transaction[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  favoriteFoods Food[]        @relation("FavoritedBy")
 }
 
 model Food {
-  id     String  @id @default(uuid())
-  name   String
-  price  Int
-  image  String?
-  rating Float?
+  id          String   @id @default(uuid())
+  name        String
+  price       Int
+  image       String?
+  rating      Float?
+  categoryId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   description String?
-  // quantity Int
-  // total    Int
-
-  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  categoryId String
-
-  favoritedBy User[] @relation("FavoritedBy")
-  // orderId       Int         
-  // order         Order[]     @relation("OrderItems", fields: [orderId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  favoritedBy User[]   @relation("FavoritedBy")
 }
 
 model Order {
-  id              Int    @id @default(autoincrement())
+  id              Int      @id @default(autoincrement())
   status          String
   deliveryAddress String
   paymentMethod   String
   total           Int
-
-  user   User   @relation(fields: [userId], references: [id],onDelete: Cascade, onUpdate: Cascade)
-  userId String
-  // items           Food[]     @relation("OrderItems", fields: [itemsId], references: [id]) 
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  userId          String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Category {
-  id    String @id @default(uuid())
-  name  String
-  image String
-  foods Food[]
-
+  id        String   @id @default(uuid())
+  name      String
+  image     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  foods     Food[]
 }
 
 model Transaction {
-  id     Int             @id @default(autoincrement())
-  user   User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
-  amount Int
-  type   TransactionType
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int             @id @default(autoincrement())
+  userId    String
+  amount    Int
+  type      TransactionType
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

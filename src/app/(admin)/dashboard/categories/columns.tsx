@@ -2,28 +2,12 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/src/common/components/ui/checkbox";
-import { DataTableColumnHeader } from "./data-table-column-header";
-import { DataTableRowActions } from "./data-table-row-actions";
-import { Category, Food } from "@prisma/client";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/src/common/components/ui/dropdown-menu";
-import Image from "next/image";
-import { Button } from "@/src/common/components/ui/button";
-import { MoreHorizontal, RefreshCcw, Trash2 } from "lucide-react";
-import { deleteData } from "@/src/common/lib/getData";
-import { revalidatePath } from "next/cache";
-import { useEffect } from "react";
-
-// const handleDelete = async (id: string) => {
-//   const res = await deleteData(`categories/${id}`);
-//   return res;
-// };
+import { DataTableColumnHeader } from "@/src/common/components/data-table/data-table-column-header";
+import ActionColumn from "@/src/common/components/data-table/data-table-columns/ActionColumn";
+import { Category } from "@prisma/client";
+import SortableColumn from "@/src/common/components/data-table/data-table-columns/SortableColumn";
+import ImageColumn from "@/src/common/components/data-table/data-table-columns/ImageColumn";
+import DateColumn from "@/src/common/components/data-table/data-table-columns/DateColumn";
 
 export const columns: ColumnDef<Category>[] = [
   {
@@ -53,25 +37,19 @@ export const columns: ColumnDef<Category>[] = [
         className=" text-zinc-950 font-semibold"
       />
     ),
-    cell: ({ row }) => (
-      <Image
-        src={row.original.image}
-        className="flex items-center"
-        alt={row.original.name}
-        width={50}
-        height={50}
-      />
-    ),
+    cell: ({ row }) => <ImageColumn row={row} accessorKey="image" />,
   },
   {
     accessorKey: "name",
-    header: () => (
-      <DataTableColumnHeader
-        title="Name"
-        className=" text-zinc-950 font-semibold text-right"
-      />
-    ),
+    header: ({ column }) => <SortableColumn column={column} title="Name" />,
     cell: ({ row }) => <span className="text-right">{row.original.name}</span>,
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Date Created",
+    cell: ({ row }) => {
+      return <DateColumn row={row} accessorKey="createdAt" />;
+    },
   },
   {
     accessorKey: "actions",
@@ -83,7 +61,13 @@ export const columns: ColumnDef<Category>[] = [
     ),
     id: "actions",
     cell: ({ row }) => {
-      return <DataTableRowActions row={row} />;
+      return (
+        <ActionColumn
+          endpoint={`categories/${row.original.id}`}
+          row={row}
+          title="Categories"
+        />
+      );
     },
   },
 ];
