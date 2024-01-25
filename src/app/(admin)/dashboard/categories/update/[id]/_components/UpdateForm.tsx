@@ -40,6 +40,7 @@ const UpdateCategoriesForm = ({ categories }: any) => {
       resourceName: "categories",
       redirect() {
         router.push("/dashboard/categories");
+        router.refresh();
       },
     });
   };
