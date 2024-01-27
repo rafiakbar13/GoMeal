@@ -1,11 +1,10 @@
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
-  ArrowLeftIcon,
-  ArrowRightIcon,
+  ChevronsRight,
+  ChevronsLeft,
 } from "lucide-react";
 import { Table } from "@tanstack/react-table";
-
 import { Button } from "@/src/common/components/ui/button";
 import {
   Select,
@@ -61,7 +60,7 @@ export function DataTablePagination<TData>({
             disabled={!table.getCanPreviousPage()}
           >
             <span className="sr-only">Go to first page</span>
-            <ArrowLeftIcon className="h-4 w-4" />
+            <ChevronsLeft className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
@@ -88,7 +87,7 @@ export function DataTablePagination<TData>({
             disabled={!table.getCanNextPage()}
           >
             <span className="sr-only">Go to last page</span>
-            <ArrowRightIcon className="h-4 w-4" />
+            <ChevronsRight className="h-4 w-4" />
           </Button>
         </div>
       </div>
