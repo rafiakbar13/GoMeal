@@ -18,10 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={PoppinsFont.className}>
-        <Providers>
-          {children}
-          <Toaster theme="light" position="top-right" richColors />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
