@@ -22,5 +22,10 @@ export async function POST(req: Request, res: Response) {
       },
     });
     return NextResponse.json(order, { status: 201 });
-  } catch (error) {}
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
 }
