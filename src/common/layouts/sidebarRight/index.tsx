@@ -12,6 +12,7 @@ import { Button } from "../../components/ui/button";
 import Pepproni from "@/public/images/Pizza/pepproni-pizza.png";
 import Coupon from "@/public/icon/Coupon.svg";
 import { usePathname } from "next/navigation";
+import Cart from "@/src/module/user/cart/component/Cart";
 const SidebarRight = () => {
   const pathname = usePathname();
 
@@ -97,67 +98,7 @@ const SidebarRight = () => {
         {/* Order Menu */}
         <article className="mt-8">
           <h1 className="text-lg font-normal font-['Poppins']">Order Menu</h1>
-          <div className="divide-y space-y-5">
-            <div className="flex flex-col ">
-              <div className="flex justify-around">
-                <Image
-                  src={Pepproni}
-                  alt="Pepproni Pizza"
-                  className="w-14 h-14"
-                />
-                <div>
-                  <p className="text-zinc-800 font-semibold font-['Poppins']">
-                    Pepperoni Pizza
-                  </p>
-                  <p className="text-zinc-400 text-sm font-normal font-['Poppins']">
-                    1x Regular
-                  </p>
-                </div>
-                <p>
-                  <span className="text-zinc-800 text-lg font-semibold font-['Poppins']">
-                    +
-                  </span>
-                  <span className="text-yellow-500 text-lg font-semibold font-['Poppins']">
-                    $
-                  </span>
-                  <span className="text-zinc-800 text-lg font-semibold font-['Poppins']">
-                    5.59
-                  </span>
-                </p>
-              </div>
-            </div>
-            <div className="pt-4 flex flex-col gap-y-3">
-              <div className="flex justify-between items-center">
-                <p className="text-zinc-400 text-sm font-medium font-['Poppins']">
-                  Service
-                </p>
-                <p>
-                  <span className="text-zinc-800 text-lg font-medium font-['Poppins']">
-                    +
-                  </span>
-                  <span className="text-yellow-500 text-lg font-medium font-['Poppins']">
-                    $
-                  </span>
-                  <span className="text-zinc-800 text-lg font-medium font-['Poppins']">
-                    1.00
-                  </span>
-                </p>
-              </div>
-              <div className="flex justify-between items-center">
-                <p className="text-zinc-800 text-lg font-medium font-['Poppins']">
-                  Total
-                </p>
-                <p>
-                  <span className="text-yellow-500 text-2xl font-medium font-['Poppins']">
-                    $
-                  </span>
-                  <span className="text-zinc-800 text-2xl font-medium font-['Poppins']">
-                    202.00
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
+          <Cart />
           <div className="pt-4">
             {pathname === "/delivery" ? (
               <Button className="w-full bg-orange-50 border border-orange-300 text-orange-400 hover:bg-orange-50 hover:text-orange-400 text-base font-normal font-['Poppins']">

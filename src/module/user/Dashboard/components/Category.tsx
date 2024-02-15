@@ -11,8 +11,6 @@ const Category = () => {
     queryFn: () => getData("categories"),
   });
 
-  console.log(categories);
-
   return (
     <article className="mt-5">
       <div className="flex justify-between items-center">
