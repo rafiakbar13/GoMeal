@@ -13,13 +13,20 @@ import { Food } from "@prisma/client";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/src/redux/slices/cartSlice";
 import { toast } from "sonner";
+import { convertCurrency } from "@/src/common/lib/convertCurrency";
 type Props = {};
 
 const PopularDishes = (props: Props) => {
   const dispatch = useDispatch();
+
+  const getDataLimited = async (menu: any) => {
+    const response = await getData(menu);
+    return response.slice(0, 6);
+  };
+
   const { data: foods, isLoading } = useQuery<Food[]>({
     queryKey: ["food"],
-    queryFn: () => getData("menu"),
+    queryFn: () => getDataLimited("menu"),
   });
 
   const handleAddToCart = (food: Food) => {
@@ -35,7 +42,7 @@ const PopularDishes = (props: Props) => {
         </h2>
         <p className="text-sm text-primary font-['Poppins']">View All</p>
       </div>
-      <div className="flex gap-x-3 justify-around mt-2">
+      <div className="grid grid-cols-3 gap-x-3 gap-y-2  mt-2">
         {isLoading ? (
           <div>Loading...</div>
         ) : (
@@ -49,17 +56,12 @@ const PopularDishes = (props: Props) => {
                   height={249}
                 />
               </CardContent>
-              <CardFooter className="text-zinc-400 text-base font-normal font-['Poppins'] px-4 flex flex-col items-start">
+              <CardFooter className="text-base font-normal font-['Poppins'] px-4 flex flex-col items-start">
                 <p>{food.name}</p>
                 <div className="flex justify-between items-center gap-x-4 w-full">
-                  <h1>
-                    <span className="text-yellow-500 text-xl font-bold font-['Poppins']">
-                      Rp.
-                    </span>
-                    <span className="text-zinc-800 text-xl font-bold font-['Poppins']">
-                      {food.price}
-                    </span>
-                  </h1>
+                  <span className="text-zinc-800 text-xl font-bold font-['Poppins']">
+                    {convertCurrency(food.price)}
+                  </span>
                   <Button
                     size="sm"
                     className="bg-primary text-white mt-2"
