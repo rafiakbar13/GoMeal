@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Pepproni from "@/public/images/Pizza/pepproni-pizza.png";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { convertCurrency } from "@/src/common/lib/convertCurrency";
@@ -9,7 +8,7 @@ import {
   incrementQty,
   removeToCart,
 } from "@/src/redux/slices/cartSlice";
-import { MinusCircle, PlusCircle, Trash, Trash2 } from "lucide-react";
+import { MinusCircle, PlusCircle, Trash2 } from "lucide-react";
 type Props = {};
 
 const Cart = (props: Props) => {
@@ -37,8 +36,6 @@ const Cart = (props: Props) => {
   const handleDeleteItem = (id: number) => {
     dispatch(removeToCart({ id }));
   };
-
-  console.log(cartItems, "CART ITEMS");
 
   return (
     <div>

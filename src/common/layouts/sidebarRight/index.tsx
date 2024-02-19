@@ -13,7 +13,9 @@ import Pepproni from "@/public/images/Pizza/pepproni-pizza.png";
 import Coupon from "@/public/icon/Coupon.svg";
 import { usePathname } from "next/navigation";
 import Cart from "@/src/module/user/cart/component/Cart";
+import { useSelector } from "react-redux";
 const SidebarRight = () => {
+  const cart = useSelector((state: any) => state.cart);
   const pathname = usePathname();
 
   if (
@@ -22,6 +24,12 @@ const SidebarRight = () => {
     pathname === "/bills"
   )
     return null;
+
+  const Checkout = (e: any) => {
+    e.preventDefault();
+    // const cart = JSON.parse(localStorage.getItem("cart") || "") || [];
+    console.log(cart);
+  };
 
   return (
     <aside className="w-[300px] py-10 h-full">
@@ -115,7 +123,10 @@ const SidebarRight = () => {
                   Have a Coupon Code
                   <BiChevronRight className="ml-3" size={20} />
                 </Button>
-                <Button className="bg-primary text-white w-full mt-4 py-4">
+                <Button
+                  onClick={Checkout}
+                  className="bg-primary text-white w-full mt-4 py-4"
+                >
                   Checkout
                 </Button>
               </div>
