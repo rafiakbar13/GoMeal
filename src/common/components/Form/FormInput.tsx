@@ -11,7 +11,7 @@ type FormInputProps = {
   type?: string;
   defaultValue?: string;
   className?: string;
-};
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
 const FormInput = ({
   label,
@@ -22,6 +22,7 @@ const FormInput = ({
   type = "text",
   defaultValue = "",
   className = "sm:col-span-2",
+  ...rest
 }: FormInputProps) => {
   return (
     <div className={className}>
@@ -40,6 +41,7 @@ const FormInput = ({
           defaultValue={defaultValue}
           autoComplete={name}
           placeholder={`Type the ${label?.toLowerCase()}`}
+          className={className}
         />
         {errors[`${name}`] && (
           <span className="text-sm text-red-600 ">{label} is required</span>

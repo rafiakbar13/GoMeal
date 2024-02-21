@@ -5,7 +5,7 @@ interface MakeRequestParams {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   endpoint: string;
   data: Record<string, any>;
-  resourceName: string;
+  resourceName?: string;
   reset?: () => void;
   redirect?: () => void;
 }
