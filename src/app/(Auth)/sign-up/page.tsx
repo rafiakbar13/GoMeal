@@ -34,7 +34,7 @@ const RegisterPage = () => {
         data,
         resourceName: "User",
         reset: () => {},
-        redirect: () => router.push("/sign-in"),
+        redirect: () => router.push("/verify-email"),
       });
     } catch (error) {
       console.log(error);

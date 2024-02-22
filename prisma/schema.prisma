@@ -11,15 +11,32 @@ model User {
   id            String        @id @default(uuid())
   fullname      String
   email         String        @unique
+  emailVerified Boolean?      @default(false)
   password      String
   address       String?
   balance       Int           @default(0)
   role          Role          @default(USER)
+  verificationToken String?
+  profile       userProfile?
+
+
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+
+
   orders        Order[]
   transactions  Transaction[]
   favoriteFoods Food[]        @relation("FavoritedBy")
+}
+
+model userProfile {
+  id        String   @id @default(uuid())
+  userId    String @unique
+  image     String?
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Food {
