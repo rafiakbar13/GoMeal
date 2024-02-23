@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import axios from "axios";
 import FormInput from "@/src/common/components/Form/FormInput";
+import { signIn } from "next-auth/react";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -21,22 +22,32 @@ const LoginPage = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
   });
 
-  // const onSubmit = async (data: LoginSchemaType) => {
-  //     try {
-  //         const response = await axios.post(`${API}/auth/login`, data)
-  //         if (response.status === 200) {
-  //             toast.success('Login Success')
-  //             router.push('/dashboard')
-  //         }
-  //     } catch (error) {
-  //         toast.error('Login Failed')
-  //         console.log(error);
-  //     }
-  // }
+  const onSubmit = async (data: LoginSchemaType) => {
+    console.log(data);
+    try {
+      const loginData = await signIn("credentials", {
+        ...data,
+        redirect: false,
+      });
+      console.log(loginData);
+      if (loginData?.error) {
+        toast.error("Invalid Credentials");
+      } else {
+        toast.success("Logged In Successfully");
+      }
+      reset();
+      router.push("/onboard");
+    } catch (error) {
+      console.error(error);
+
+      toast.error("its seems there is an error");
+    }
+  };
 
   return (
     <section className="w-5/6 mx-auto">

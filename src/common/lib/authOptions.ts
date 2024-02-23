@@ -21,7 +21,7 @@ export const authOptions = {
         email: {
           label: "Email",
           type: "email",
-          placeholder: "example@gmail.com",
+          placeholder: "gomeal@gmail.com",
         },
         password: { label: "Password", type: "password" },
       },
@@ -59,7 +59,7 @@ export const authOptions = {
             name: existingUser.fullname,
             email: existingUser.email,
             role: existingUser.role,
-            emailVerified: existingUser.email,
+            emailVerified: existingUser.emailVerified,
           };
           //
           console.log("User Compiled");
@@ -81,7 +81,7 @@ export const authOptions = {
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.role = token.role;
-        session.user.image = token.picture;
+        session.user.image = token.image;
         session.user.emailVerified = token.emailVerified;
       }
       console.log(`session:${session.user}`);
@@ -93,7 +93,7 @@ export const authOptions = {
         token.name = user.name;
         token.email = user.email;
         token.role = user.role;
-        token.image = user.picture;
+        token.image = user.image;
         token.emailVerified = user.emailVerified;
       }
       console.log(`token:${token}`);

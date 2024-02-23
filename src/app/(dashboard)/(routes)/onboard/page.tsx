@@ -1,14 +1,20 @@
-import Dashboard from '@/src/module/user/Dashboard/index'
-import React from 'react'
+import { authOptions } from "@/src/common/lib/authOptions";
+import Dashboard from "@/src/module/user/Dashboard/index";
+import { log } from "console";
+import { AuthOptions, getServerSession } from "next-auth";
+import React from "react";
 
-type Props = {}
+type Props = {};
 
-const DashboardPage = (props: Props) => {
-    return (
-        <>
-            <Dashboard />
-        </>
-    )
-}
+const DashboardPage = async (props: Props) => {
+  const session = await getServerSession(authOptions as AuthOptions);
+  log("Session", session?.user);
 
-export default DashboardPage
+  return (
+    <>
+      <Dashboard />
+    </>
+  );
+};
+
+export default DashboardPage;

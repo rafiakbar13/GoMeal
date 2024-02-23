@@ -45,7 +45,7 @@ export async function POST(req: Request, res: Response) {
     const linkText = "Verify Account";
     const redirectUrl = `onboarding/${userId}?token=${token}`;
     const sendMail = await resend.emails.send({
-      from: "",
+      from: "Desishub <info@gomeal.com>",
       to: email,
       subject: "Verify your email",
       react: EmailTemplate({
