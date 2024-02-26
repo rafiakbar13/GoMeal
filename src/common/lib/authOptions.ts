@@ -59,6 +59,7 @@ export const authOptions = {
             name: existingUser.fullname,
             email: existingUser.email,
             role: existingUser.role,
+            image: existingUser.image,
             emailVerified: existingUser.emailVerified,
           };
           //
@@ -66,7 +67,7 @@ export const authOptions = {
           // console.log(user);
           return user;
         } catch (error) {
-          console.log("aLL Failed");
+          console.log("All Failed");
           console.log(error);
           throw { error: "Something went wrong", status: 401 };
         }

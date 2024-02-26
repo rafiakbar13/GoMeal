@@ -14,6 +14,10 @@ import Coupon from "@/public/icon/Coupon.svg";
 import { usePathname } from "next/navigation";
 import Cart from "@/src/module/user/cart/component/Cart";
 import { useSelector } from "react-redux";
+import { signOut, useSession } from "next-auth/react";
+import Loading from "@/src/app/loading";
+
+import { UserAvatar } from "../../components/UserAvatar";
 const SidebarRight = () => {
   const cart = useSelector((state: any) => state.cart);
   const pathname = usePathname();
@@ -31,6 +35,8 @@ const SidebarRight = () => {
     console.log(cart);
   };
 
+  const { data: session, status } = useSession();
+
   return (
     <aside className="w-[300px] py-10 h-full">
       <article className="px-4">
@@ -39,9 +45,7 @@ const SidebarRight = () => {
             <IoMdNotificationsOutline />
             <IoMdSettings />
           </div>
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-          </Avatar>
+          {session && <UserAvatar user={session.user?.image} />}
         </div>
         <article>
           <h1 className="text-xl mb-4 font-['Poppins'] ">Your Balance</h1>

@@ -41,7 +41,7 @@ const LoginPage = () => {
         toast.success("Logged In Successfully");
       }
       reset();
-      router.push("/onboard");
+      router.push(`/onboard`);
     } catch (error) {
       console.error(error);
 
@@ -66,7 +66,10 @@ const LoginPage = () => {
           <p className="text-gray-400">
             Sign in to your Go-Meal account to continue your culinary journey
           </p>
-          <form className="flex flex-col gap-y-5">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-y-5"
+          >
             <label htmlFor="email" className="text-base tracking-wide">
               Email
             </label>
