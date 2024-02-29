@@ -5,14 +5,12 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { LoginSchema, LoginSchemaType } from "@/src/common/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AiOutlineUser, AiOutlineMail } from "react-icons/ai";
+import { AiOutlineMail } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { Button } from "@/src/common/components/ui/button";
 import Link from "next/link";
-// import { API } from '@/src/services'
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import axios from "axios";
 import FormInput from "@/src/common/components/Form/FormInput";
 import { signIn } from "next-auth/react";
 
@@ -41,7 +39,7 @@ const LoginPage = () => {
         toast.success("Logged In Successfully");
       }
       reset();
-      router.push(`/onboard`);
+      router.push(`/home`);
     } catch (error) {
       console.error(error);
 

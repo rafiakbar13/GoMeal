@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
@@ -32,17 +32,17 @@ export const authOptions = {
           if (!credentials?.email || !credentials?.password) {
             throw { error: "No Inputs Found", status: 401 };
           }
-          console.log("Passed Check 1 ");
+          // console.log("Passed Check 1 ");
           //Check if user exists
           const existingUser = await db.user.findUnique({
             where: { email: credentials.email },
           });
           if (!existingUser) {
-            console.log("No user found");
+            // console.log("No user found");
             throw { error: "No user found", status: 401 };
           }
 
-          console.log("Passed Check 2");
+          // console.log("Passed Check 2");
 
           //Check if Password is correct
           const passwordMatch = await compare(
@@ -53,7 +53,7 @@ export const authOptions = {
             console.log("Password incorrect");
             throw { error: "Password Incorrect", status: 401 };
           }
-          console.log("Pass 3 Checked");
+          // console.log("Pass 3 Checked");
           const user = {
             id: existingUser.id,
             name: existingUser.fullname,
@@ -77,7 +77,7 @@ export const authOptions = {
   callbacks: {
     async session({ session, token }: any) {
       if (token) {
-        console.log(`token:${token} in session`);
+        // console.log(`token:${token} in session`);
         session.user.id = token.id;
         session.user.name = token.name;
         session.user.email = token.email;
@@ -85,10 +85,12 @@ export const authOptions = {
         session.user.image = token.image;
         session.user.emailVerified = token.emailVerified;
       }
-      console.log(`session:${session.user}`);
+      // console.log(`session:${session.user}`);
       return session;
     },
     async jwt({ token, user }: any) {
+      // console.log(`token:${token}`);
+
       if (user) {
         token.id = user.id;
         token.name = user.name;
@@ -97,7 +99,7 @@ export const authOptions = {
         token.image = user.image;
         token.emailVerified = user.emailVerified;
       }
-      console.log(`token:${token}`);
+      // console.log(`token:${token}`);
       return token;
     },
   },

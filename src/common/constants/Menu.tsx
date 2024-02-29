@@ -10,7 +10,7 @@ export const MENU: MenuProps[] = [
   {
     name: "Dashboard",
     icon: <Image src={Restaurant} alt="bakery" />,
-    path: "/onboard",
+    path: "/home",
   },
   {
     name: "Food Order",
