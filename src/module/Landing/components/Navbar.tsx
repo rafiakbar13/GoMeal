@@ -6,8 +6,6 @@ import Link from "next/link";
 import React from "react";
 
 const Navbar = () => {
-  const { data: session, status } = useSession();
-  if (status === "loading") return <Loading />;
   return (
     <nav className="w-5/6 mx-auto">
       <div className="flex justify-between py-4 gap-x-8 md:gap-x-0">

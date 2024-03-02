@@ -43,6 +43,9 @@ export async function POST(req: Request, res: Response) {
     // SEND VERIFICATION EMAIL
     const userId = newUser.id;
     const linkText = "Verify Account";
+    const description =
+      " Thank you for creating an account with us. We request you to click on the link below in order to verify your account. Thank you";
+    const subject = "Verify your email - GoMeal";
     const redirectUrl = `home/${userId}?token=${token}`;
     const sendMail = await resend.emails.send({
       from: "Desishub <info@gomeal.com>",
@@ -52,6 +55,8 @@ export async function POST(req: Request, res: Response) {
         name: fullname,
         redirectUrl,
         linkText,
+        description,
+        subject,
       }),
       text: "Verify your email",
     });

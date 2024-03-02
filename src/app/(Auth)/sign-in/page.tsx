@@ -10,9 +10,10 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { Button } from "@/src/common/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import FormInput from "@/src/common/components/Form/FormInput";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -27,19 +28,20 @@ const LoginPage = () => {
 
   const onSubmit = async (data: LoginSchemaType) => {
     console.log(data);
+
     try {
       const loginData = await signIn("credentials", {
         ...data,
         redirect: false,
       });
       console.log(loginData);
-      if (loginData?.error) {
-        toast.error("Invalid Credentials");
-      } else {
+      if (loginData?.ok) {
         toast.success("Logged In Successfully");
+      } else {
+        toast.error("Invalid Credentials");
       }
       reset();
-      router.push(`/home`);
+      router.push("/home");
     } catch (error) {
       console.error(error);
 
@@ -94,7 +96,14 @@ const LoginPage = () => {
                 placeholder="Enter your password"
               />
             </div>
-            <Button className="w-full shadow-primary shadow-sm">Sign In</Button>
+            <div className="flex whitespace-nowrap items-center justify-center gap-x-3">
+              <Link href="/forgot-password" className="text-secondary">
+                Forgot Password?
+              </Link>
+              <Button className="w-full shadow-primary shadow-sm">
+                Sign In
+              </Button>
+            </div>
             <div>
               <p className="text-center mt-5 text-gray-400">
                 Not registered yet?{" "}

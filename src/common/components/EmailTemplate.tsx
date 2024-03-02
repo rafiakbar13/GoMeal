@@ -16,6 +16,8 @@ interface EmailTemplateProps {
   name?: string;
   redirectUrl?: string;
   linkText?: string;
+  description?: string;
+  subject?: string;
 }
 
 const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL!;
@@ -24,12 +26,12 @@ const EmailTemplate: React.FC<EmailTemplateProps> = ({
   name = "",
   redirectUrl = "/login",
   linkText,
+  description,
+  subject,
 }) => (
   <Html>
     <Head />
-    <Preview>
-      A fine-grained personal access token has been added to your account
-    </Preview>
+    <Preview>{subject}</Preview>
     <Body style={main}>
       <Container style={container}>
         <Img
@@ -45,10 +47,7 @@ const EmailTemplate: React.FC<EmailTemplateProps> = ({
           <Text style={text}>
             Hey <strong>{name}</strong>!
           </Text>
-          <Text style={text}>
-            Thank you for creating an account with us. We request you to click
-            on the link below in order to verify your account. Thank you
-          </Text>
+          <Text style={text}>{description}</Text>
 
           <Link style={button} href={`${baseUrl}/${redirectUrl}`}>
             {linkText}
