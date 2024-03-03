@@ -3,19 +3,21 @@ import React from "react";
 import SignInpImg from "@/public/images/Login.jpg";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { LoginSchema, LoginSchemaType } from "@/src/common/lib/types";
+import { LoginSchema, LoginSchemaType } from "@/common/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AiOutlineMail } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { Button } from "@/src/common/components/ui/button";
+import { Button } from "@/common/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import FormInput from "@/src/common/components/Form/FormInput";
+import FormInput from "@/common/components/Form/FormInput";
 import { signIn, useSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 
 const LoginPage = () => {
+  const { data: session, status } = useSession();
+
   const router = useRouter();
   const {
     register,
@@ -27,8 +29,6 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (data: LoginSchemaType) => {
-    console.log(data);
-
     try {
       const loginData = await signIn("credentials", {
         ...data,

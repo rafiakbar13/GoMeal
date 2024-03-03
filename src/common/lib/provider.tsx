@@ -9,8 +9,6 @@ import { Provider } from "react-redux";
 import { store } from "@/src/redux/store";
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
-  const { data, status } = useSession();
-  console.log(data?.user);
   const [client] = React.useState(() => new QueryClient());
   return (
     <QueryClientProvider client={client}>
