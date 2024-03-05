@@ -1,7 +1,7 @@
 import React from "react";
 import DataTable from "./data-table";
 import { columns } from "./columns";
-import { bills } from "@/src/common/constants/Bills";
+import { bills } from "@/common/constants/Bills";
 
 const Bills = () => {
   return (

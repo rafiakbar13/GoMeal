@@ -1,4 +1,4 @@
-import { db } from "@/src/common/lib/db";
+import { db } from "@/common/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 export async function PUT(request: NextRequest) {

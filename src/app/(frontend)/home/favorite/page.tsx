@@ -1,11 +1,8 @@
-import Favorite from '@/src/module/user/Favorite'
-import React from 'react'
-
+import Favorite from "@/module/user/Favorite";
+import React from "react";
 
 const Favorites = () => {
-    return (
-        <Favorite />
-    )
-}
+  return <Favorite />;
+};
 
-export default Favorites
+export default Favorites;

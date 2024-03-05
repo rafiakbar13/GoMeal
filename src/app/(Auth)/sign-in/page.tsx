@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import SignInpImg from "@/public/images/Login.jpg";
+import SignInpImg from "@images/images/Login.jpg";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { LoginSchema, LoginSchemaType } from "@/common/lib/types";

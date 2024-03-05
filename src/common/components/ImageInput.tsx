@@ -4,7 +4,7 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { UploadDropzone } from "../lib/uploadthing";
 import { Pencil } from "lucide-react";
-import { OurFileRouter } from "@/src/app/api/uploadthing/core";
+import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { Button } from "./ui/button";
 
 type ImageInputProps = {

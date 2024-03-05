@@ -1,9 +1,9 @@
-import Heading from "@/src/common/components/Heading";
-import PageHeading from "@/src/common/components/PageHeading";
+import Heading from "@/common/components/Heading";
+import PageHeading from "@/common/components/PageHeading";
 import React from "react";
-import { DataTable } from "@/src/common/components/data-table/data-table";
+import { DataTable } from "@/common/components/data-table/data-table";
 import { columns } from "./columns";
-import { getData } from "@/src/common/lib/getData";
+import { getData } from "@/common/lib/getData";
 import { Category } from "@prisma/client";
 type Props = {
   category: Category[];

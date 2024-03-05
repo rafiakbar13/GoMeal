@@ -1,4 +1,4 @@
-import { db } from "@/src/common/lib/db";
+import { db } from "@/common/lib/db";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 

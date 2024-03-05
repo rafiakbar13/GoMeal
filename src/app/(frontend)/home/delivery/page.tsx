@@ -1,11 +1,9 @@
-import React from 'react'
-import OrderFood from '@/src/module/user/FoodOrder'
-type Props = {}
+import React from "react";
+import OrderFood from "@/module/user/FoodOrder";
+type Props = {};
 
 const FoodOrder = (props: Props) => {
-    return (
-        <OrderFood />
-    )
-}
+  return <OrderFood />;
+};
 
-export default FoodOrder
+export default FoodOrder;

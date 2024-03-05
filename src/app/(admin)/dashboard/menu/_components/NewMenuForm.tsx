@@ -1,14 +1,14 @@
 "use client";
 import React from "react";
-import FormInput from "@/src/common/components/Form/FormInput";
-import SelectInput from "@/src/common/components/Form/SelectInput";
-import FormHeader from "@/src/common/components/FormHeader";
-import ImageInput from "@/src/common/components/ImageInput";
+import FormInput from "@/common/components/Form/FormInput";
+import SelectInput from "@/common/components/Form/SelectInput";
+import FormHeader from "@/common/components/FormHeader";
+import ImageInput from "@/common/components/ImageInput";
 import { useForm } from "react-hook-form";
-import SubmitButton from "@/src/common/components/SubmitButton";
-import { getData } from "@/src/common/lib/getData";
+import SubmitButton from "@/common/components/SubmitButton";
+import { getData } from "@/common/lib/getData";
 import { Category } from "@prisma/client";
-import { postRequest } from "@/src/common/lib/api";
+import { postRequest } from "@/common/lib/api";
 import { useRouter } from "next/navigation";
 type Props = {
   categories: Category[];

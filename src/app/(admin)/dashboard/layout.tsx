@@ -1,6 +1,6 @@
-import Sidebar from "@/src/common/components/sidebar/Sidebar";
+import Sidebar from "@/common/components/sidebar/Sidebar";
 import React from "react";
-import { MENU_ADMIN } from "@/src/common/constants/Menu";
+import { MENU_ADMIN } from "@/common/constants/Menu";
 type LayoutDashboardProps = {
   children: React.ReactNode;
 };

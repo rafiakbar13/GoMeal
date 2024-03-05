@@ -6,8 +6,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/src/common/components/ui/dropdown-menu";
-import { Button } from "@/src/common/components/ui/button";
+} from "@/common/components/ui/dropdown-menu";
+import { Button } from "@/common/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import DeleteBtn from "../actions/DeleteBtn";
 import EditBtn from "../actions/EditBtn";

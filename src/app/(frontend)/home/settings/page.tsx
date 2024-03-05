@@ -1,11 +1,9 @@
-import React from 'react'
-import Setting from '@/src/module/user/Settings'
-type Props = {}
+import React from "react";
+import Setting from "@/module/user/Settings";
+type Props = {};
 
 const Settings = (props: Props) => {
-    return (
-        <Setting />
-    )
-}
+  return <Setting />;
+};
 
-export default Settings
+export default Settings;

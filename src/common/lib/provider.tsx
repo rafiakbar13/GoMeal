@@ -6,7 +6,7 @@ import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experime
 import { Toaster } from "sonner";
 import { SessionProvider, useSession } from "next-auth/react";
 import { Provider } from "react-redux";
-import { store } from "@/src/redux/store";
+import { store } from "@/redux/store";
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   const [client] = React.useState(() => new QueryClient());

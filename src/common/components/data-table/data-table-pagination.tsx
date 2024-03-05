@@ -5,14 +5,14 @@ import {
   ChevronsLeft,
 } from "lucide-react";
 import { Table } from "@tanstack/react-table";
-import { Button } from "@/src/common/components/ui/button";
+import { Button } from "@/common/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/src/common/components/ui/select";
+} from "@/common/components/ui/select";
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;

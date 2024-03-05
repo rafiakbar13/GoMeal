@@ -1,22 +1,19 @@
-import { cn } from "@/src/common/lib/utils";
+import { cn } from "@/common/lib/utils";
 
 interface DataTableProps<TData, TValue> {
-    title: string
-    className: string,
+  title: string;
+  className: string;
 }
-
 
 export const DataTableColumnHeader = <TData, TValue>({
-    title,
-    className,
+  title,
+  className,
 }: DataTableProps<TData, TValue>) => {
-    return (
-        <section>
-            <div className={cn("flex items-center space-x-2", className)}>
-                <span>
-                    {title}
-                </span>
-            </div>
-        </section>
-    )
-}
+  return (
+    <section>
+      <div className={cn("flex items-center space-x-2", className)}>
+        <span>{title}</span>
+      </div>
+    </section>
+  );
+};

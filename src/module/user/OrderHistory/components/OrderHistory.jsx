@@ -1,5 +1,5 @@
 import React from "react";
-import { HistoryData } from "@/src/common/constants/OrderHistory";
+import { HistoryData } from "@/common/constants/OrderHistory";
 import { columns } from "./columns";
 import DataTable from "./data-table";
 const OrderHistory = () => {

@@ -2,12 +2,12 @@
 import React from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { convertCurrency } from "@/src/common/lib/convertCurrency";
+import { convertCurrency } from "@/common/lib/convertCurrency";
 import {
   decrementQty,
   incrementQty,
   removeToCart,
-} from "@/src/redux/slices/cartSlice";
+} from "@/redux/slices/cartSlice";
 import { MinusCircle, PlusCircle, Trash2 } from "lucide-react";
 type Props = {};
 

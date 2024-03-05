@@ -1,15 +1,15 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Checkbox } from "@/src/common/components/ui/checkbox";
-import { DataTableColumnHeader } from "@/src/common/components/data-table/data-table-column-header";
+import { Checkbox } from "@/common/components/ui/checkbox";
+import { DataTableColumnHeader } from "@/common/components/data-table/data-table-column-header";
 import { Food } from "@prisma/client";
 import Image from "next/image";
-import { deleteData } from "@/src/common/lib/getData";
-import ActionColumn from "@/src/common/components/data-table/data-table-columns/ActionColumn";
-import ImageColumn from "@/src/common/components/data-table/data-table-columns/ImageColumn";
-import SortableColumn from "@/src/common/components/data-table/data-table-columns/SortableColumn";
-import DateColumn from "@/src/common/components/data-table/data-table-columns/DateColumn";
+import { deleteData } from "@/common/lib/getData";
+import ActionColumn from "@/common/components/data-table/data-table-columns/ActionColumn";
+import ImageColumn from "@/common/components/data-table/data-table-columns/ImageColumn";
+import SortableColumn from "@/common/components/data-table/data-table-columns/SortableColumn";
+import DateColumn from "@/common/components/data-table/data-table-columns/DateColumn";
 
 export const columns: ColumnDef<Food>[] = [
   {

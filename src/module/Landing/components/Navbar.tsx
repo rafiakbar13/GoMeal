@@ -1,6 +1,6 @@
 "use client";
-import Loading from "@/src/app/loading";
-import { Button } from "@/src/common/components/ui/button";
+import Loading from "@/app/loading";
+import { Button } from "@/common/components/ui/button";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";

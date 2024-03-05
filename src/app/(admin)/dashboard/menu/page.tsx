@@ -1,11 +1,11 @@
 "use client";
-import Heading from "@/src/common/components/Heading";
-import PageHeading from "@/src/common/components/PageHeading";
+import Heading from "@/common/components/Heading";
+import PageHeading from "@/common/components/PageHeading";
 import React from "react";
-import { DataTable } from "@/src/common/components/data-table/data-table";
+import { DataTable } from "@/common/components/data-table/data-table";
 import { columns } from "./columns";
 import { Food } from "@prisma/client";
-import { getData } from "@/src/common/lib/getData";
+import { getData } from "@/common/lib/getData";
 type Props = {
   food: Food[] & { category: { name: string } }[];
 };

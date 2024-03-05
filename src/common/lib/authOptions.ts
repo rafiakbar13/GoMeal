@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import { compare } from "bcrypt";
-import { db } from "@/src/common/lib/db";
+import { db } from "@/common/lib/db";
 // import { UserRole } from "@prisma/client";
 export const authOptions = {
   adapter: PrismaAdapter(db),
@@ -63,8 +63,8 @@ export const authOptions = {
             emailVerified: existingUser.emailVerified,
           };
           //
-          console.log("User Compiled");
-          // console.log(user);
+          // console.log("User Compiled");
+          console.log(user);
           return user;
         } catch (error) {
           console.log("All Failed");
@@ -75,6 +75,18 @@ export const authOptions = {
     }),
   ],
   callbacks: {
+    async jwt({ token, user }: any) {
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+        token.role = user.role;
+        token.image = user.image;
+        token.emailVerified = user.emailVerified;
+      }
+      console.log(`token:${token}`);
+      return token;
+    },
     async session({ session, token }: any) {
       if (token) {
         // console.log(`token:${token} in session`);
@@ -87,20 +99,6 @@ export const authOptions = {
       }
       // console.log(`session:${session.user}`);
       return session;
-    },
-    async jwt({ token, user }: any) {
-      // console.log(`token:${token}`);
-
-      if (user) {
-        token.id = user.id;
-        token.name = user.name;
-        token.email = user.email;
-        token.role = user.role;
-        token.image = user.image;
-        token.emailVerified = user.emailVerified;
-      }
-      // console.log(`token:${token}`);
-      return token;
     },
   },
 };

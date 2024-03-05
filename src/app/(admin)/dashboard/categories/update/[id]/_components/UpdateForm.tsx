@@ -1,18 +1,18 @@
 "use client";
 import React from "react";
-import FormInput from "@/src/common/components/Form/FormInput";
-import FormHeader from "@/src/common/components/FormHeader";
-import ImageInput from "@/src/common/components/ImageInput";
+import FormInput from "@/common/components/Form/FormInput";
+import FormHeader from "@/common/components/FormHeader";
+import ImageInput from "@/common/components/ImageInput";
 import { useForm } from "react-hook-form";
-import SubmitButton from "@/src/common/components/SubmitButton";
+import SubmitButton from "@/common/components/SubmitButton";
 import {
   CreateCategoriesSchema,
   CreateCategoriesSchemaType,
-} from "@/src/common/lib/types";
+} from "@/common/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { putRequest } from "@/src/common/lib/api";
+import { putRequest } from "@/common/lib/api";
 import { useParams, useRouter } from "next/navigation";
-import { getData } from "@/src/common/lib/getData";
+import { getData } from "@/common/lib/getData";
 
 const UpdateCategoriesForm = ({ categories }: any) => {
   const { id } = useParams();

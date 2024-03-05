@@ -1,5 +1,5 @@
-import SidebarLeft from "@/src/common/layouts/sidebarLeft";
-import SidebarRight from "@/src/common/layouts/sidebarRight";
+import SidebarLeft from "@/common/layouts/sidebarLeft";
+import SidebarRight from "@/common/layouts/sidebarRight";
 import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {

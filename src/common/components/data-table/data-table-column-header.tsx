@@ -1,4 +1,4 @@
-import { cn } from "@/src/common/lib/utils";
+import { cn } from "@/common/lib/utils";
 
 interface DataTableProps<TData, TValue> {
   title: string;

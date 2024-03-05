@@ -1,17 +1,17 @@
 "use client";
 
-import { DropdownMenuTrigger } from "@/src/common/components/ui/dropdown-menu";
+import { DropdownMenuTrigger } from "@/common/components/ui/dropdown-menu";
 import { MoreHorizontalIcon } from "lucide-react";
 import { Table } from "@tanstack/react-table";
 
-import { Button } from "@/src/common/components/ui/button";
+import { Button } from "@/common/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from "@/src/common/components/ui/dropdown-menu";
+} from "@/common/components/ui/dropdown-menu";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;

@@ -1,6 +1,6 @@
 "use client";
 import { HiInformationCircle } from "react-icons/hi";
-import { Alert } from "@/src/common/components/ui/alert";
+import { Alert } from "@/common/components/ui/alert";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -9,7 +9,7 @@ import Link from "next/link";
 import { FaGoogle } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { toast } from "sonner";
-import { putRequest } from "@/src/common/lib/api";
+import { putRequest } from "@/common/lib/api";
 export default function ForgotPasswordForm() {
   const router = useRouter();
   const [showNotification, setShowNotification] = useState(false);

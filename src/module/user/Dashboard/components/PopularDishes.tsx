@@ -1,19 +1,19 @@
 "use client";
 import React from "react";
-import { Card, CardContent, CardFooter } from "@/src/common/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/common/components/ui/card";
 import Image from "next/image";
-import { Button } from "@/src/common/components/ui/button";
+import { Button } from "@/common/components/ui/button";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Badge } from "@/src/common/components/ui/badge";
-import Star from "@/public/icon/Star.svg";
-import FishBurger from "@/public/images/Burger/Fish-burger.png";
-import { getData } from "@/src/common/lib/getData";
+import { Badge } from "@/common/components/ui/badge";
+import Star from "@images/icon/Star.svg";
+import FishBurger from "@images/images/Burger/Fish-burger.png";
+import { getData } from "@/common/lib/getData";
 import { useQuery } from "@tanstack/react-query";
 import { Food } from "@prisma/client";
 import { useDispatch } from "react-redux";
-import { addToCart } from "@/src/redux/slices/cartSlice";
+import { addToCart } from "@/redux/slices/cartSlice";
 import { toast } from "sonner";
-import { convertCurrency } from "@/src/common/lib/convertCurrency";
+import { convertCurrency } from "@/common/lib/convertCurrency";
 type Props = {};
 
 const PopularDishes = (props: Props) => {

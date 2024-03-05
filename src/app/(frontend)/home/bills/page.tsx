@@ -1,12 +1,8 @@
-import Bills from '@/src/module/user/Bills'
-import React from 'react'
-
-
+import Bills from "@/module/user/Bills";
+import React from "react";
 
 const BillsPage = () => {
-    return (
-        <Bills />
-    )
-}
+  return <Bills />;
+};
 
-export default BillsPage
+export default BillsPage;

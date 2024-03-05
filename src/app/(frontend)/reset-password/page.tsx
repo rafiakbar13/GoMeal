@@ -1,4 +1,4 @@
-import ResetPasswordForm from "@/src/module/user/reset-password/ResetPasswordForm";
+import ResetPasswordForm from "@/module/user/reset-password/ResetPasswordForm";
 
 export default function PasswordReset() {
   return (

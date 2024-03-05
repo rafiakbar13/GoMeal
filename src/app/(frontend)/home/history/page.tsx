@@ -1,11 +1,9 @@
-import React from 'react'
-import OrderHistory from '@/src/module/user/OrderHistory'
-type Props = {}
+import React from "react";
+import OrderHistory from "@/module/user/OrderHistory";
+type Props = {};
 
 const History = (props: Props) => {
-    return (
-        <OrderHistory />
-    )
-}
+  return <OrderHistory />;
+};
 
-export default History
+export default History;

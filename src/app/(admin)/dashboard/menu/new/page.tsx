@@ -1,6 +1,6 @@
 import React from "react";
 import NewMenuForm from "../_components/NewMenuForm";
-import { getData } from "@/src/common/lib/getData";
+import { getData } from "@/common/lib/getData";
 type Props = {};
 
 const MenuPage = async (props: Props) => {

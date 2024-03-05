@@ -1,20 +1,20 @@
 "use client";
 import React from "react";
-import SignupImg from "@/public/images/Signup.webp";
+import SignupImg from "@images/images/Signup.webp";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { SignupSchema, SignupSchemaType } from "@/src/common/lib/types";
+import { SignupSchema, SignupSchemaType } from "@/common/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AiOutlineUser, AiOutlineMail } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { Button } from "@/src/common/components/ui/button";
+import { Button } from "@/common/components/ui/button";
 import Link from "next/link";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { postRequest } from "@/src/common/lib/api";
-import FormInput from "@/src/common/components/Form/FormInput";
-import SubmitButton from "@/src/common/components/SubmitButton";
+import { postRequest } from "@/common/lib/api";
+import FormInput from "@/common/components/Form/FormInput";
+import SubmitButton from "@/common/components/SubmitButton";
 const RegisterPage = () => {
   const router = useRouter();
   const {

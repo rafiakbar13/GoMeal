@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { Card, CardContent, CardFooter } from "@/src/common/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/common/components/ui/card";
 import Image from "next/image";
-import type { Category } from "@/src/common/types/category";
+import type { Category } from "@/common/types/category";
 import { useQuery } from "@tanstack/react-query";
-import { getData } from "@/src/common/lib/getData";
+import { getData } from "@/common/lib/getData";
 const Category = () => {
   const { data: categories, isLoading } = useQuery<Category[]>({
     queryKey: ["category"],

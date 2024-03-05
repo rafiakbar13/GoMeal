@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { MENU } from "@/src/common/constants/Menu";
+import { MENU } from "@/common/constants/Menu";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "../../components/ui/button";

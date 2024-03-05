@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardFooter,
   CardTitle,
-} from "@/src/common/components/ui/card";
+} from "@/common/components/ui/card";
 type Props = {};
 
 const Income = (props: Props) => {

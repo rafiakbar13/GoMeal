@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import { db } from "@/src/common/lib/db";
+import { db } from "@/common/lib/db";
 import { v4 as uuidv4 } from "uuid";
 import base64url from "base64url";
 import { Resend } from "resend";
-import EmailTemplate from "@/src/common/components/EmailTemplate";
+import EmailTemplate from "@/common/components/EmailTemplate";
 export async function PUT(request: NextRequest) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {

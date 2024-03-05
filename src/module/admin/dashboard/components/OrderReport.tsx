@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardFooter,
   CardTitle,
-} from "@/src/common/components/ui/card";
+} from "@/common/components/ui/card";
 import {
   AlertCircle,
   CheckCheck,

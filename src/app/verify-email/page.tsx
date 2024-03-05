@@ -4,7 +4,7 @@ import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from "@/src/common/components/ui/alert";
+} from "@/common/components/ui/alert";
 
 const VerifyEmailPage = () => {
   return (

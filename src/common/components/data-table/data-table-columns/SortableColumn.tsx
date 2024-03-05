@@ -1,4 +1,4 @@
-import { Button } from "@/src/common/components/ui/button";
+import { Button } from "@/common/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import React from "react";
 

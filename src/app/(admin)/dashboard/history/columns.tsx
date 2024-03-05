@@ -1,13 +1,13 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Checkbox } from "@/src/common/components/ui/checkbox";
-import { DataTableColumnHeader } from "@/src/common/components/data-table/data-table-column-header";
-import ActionColumn from "@/src/common/components/data-table/data-table-columns/ActionColumn";
+import { Checkbox } from "@/common/components/ui/checkbox";
+import { DataTableColumnHeader } from "@/common/components/data-table/data-table-column-header";
+import ActionColumn from "@/common/components/data-table/data-table-columns/ActionColumn";
 import { FoodOrders, Order } from "@prisma/client";
-import SortableColumn from "@/src/common/components/data-table/data-table-columns/SortableColumn";
-import ImageColumn from "@/src/common/components/data-table/data-table-columns/ImageColumn";
-import DateColumn from "@/src/common/components/data-table/data-table-columns/DateColumn";
+import SortableColumn from "@/common/components/data-table/data-table-columns/SortableColumn";
+import ImageColumn from "@/common/components/data-table/data-table-columns/ImageColumn";
+import DateColumn from "@/common/components/data-table/data-table-columns/DateColumn";
 
 type OrderWithFood = Order & {
   food: FoodOrders[];

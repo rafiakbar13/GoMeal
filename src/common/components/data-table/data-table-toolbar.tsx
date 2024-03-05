@@ -3,8 +3,8 @@
 import { CrossIcon } from "lucide-react";
 import { Table } from "@tanstack/react-table";
 
-import { Button } from "@/src/common/components/ui/button";
-import { Input } from "@/src/common/components/ui/input";
+import { Button } from "@/common/components/ui/button";
+import { Input } from "@/common/components/ui/input";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { FiSearch } from "react-icons/fi";
 
