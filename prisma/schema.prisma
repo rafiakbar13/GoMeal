@@ -52,27 +52,35 @@ model Food {
   description String?
   category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   favoritedBy User[]   @relation("FavoritedBy")
-  orders      FoodOrders[]
+  orders      FoodOrder[]
 }
 
 model Order {
   id              Int      @id @default(autoincrement())
-  status          String
-  deliveryAddress String
+  firstName       String
+  lastName        String
+  email          String
+  phone           String
+  orderStatus          String? @default("PENDING")
+  streetAddress   String
   paymentMethod   String
-  total           Int
+  // paymentToken    String
+  total           Int?
+  shippingCost    Int
   userId          String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  fooditems       FoodOrders[]
+
+  fooditems       FoodOrder[]
 }
 
-model FoodOrders {
+model FoodOrder {
   id       Int      @id @default(autoincrement())
-  quantity Int
-  foodId   String
   orderId  Int
+  foodId   String
+  quantity Int
+  price    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   food     Food     @relation(fields: [foodId], references: [id])
@@ -108,4 +116,11 @@ enum Role {
 enum TransactionType {
   TOPUP
   ORDER
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  DELIVERED
+  CANCELLED
 }

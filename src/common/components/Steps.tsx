@@ -1,12 +1,15 @@
+"use client";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { useSelector } from "react-redux";
 
 type Props = {
-  steps: string[];
+  steps: { number: number; title: string }[];
 };
 
 const Steps = ({ steps }: Props) => {
+  const currentStep = useSelector((state: any) => state.checkout.currentStep);
   return (
     <nav className="flex text-sm md:text-xl mb-8">
       <ol
@@ -37,10 +40,12 @@ const Steps = ({ steps }: Props) => {
                 <div className="-m-1">
                   <p
                     title=""
-                    className="p-1 ml-1.5 text-sm md:text-base font-medium text-gray-500 rounded-md focus:outline-none focus:ring-2 focus:text-gray-900 focus:ring-gray-900 hover:text-gray-700"
+                    className={`"p-1 ml-1.5 text-sm md:text-base font-medium text-gray-500 rounded-md focus:outline-none focus:ring-2 focus:text-gray-900 focus:ring-gray-900 hover:text-gray-700" ${
+                      step.number === currentStep ? "text-primary" : ""
+                    }`}
                   >
                     {" "}
-                    {step}
+                    {step.title}
                   </p>
                 </div>
               </div>

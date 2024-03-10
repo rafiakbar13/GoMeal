@@ -1,14 +1,16 @@
+"use client";
 import React from "react";
 import { render } from "react-dom";
 import PersonalDetailsForm from "./StepForm/PersonalDetailsForm";
 import ShippingForm from "./StepForm/ShippingForm";
 import PaymentMethodForm from "./StepForm/PaymentMethodForm";
 import OrderSummaryForm from "./StepForm/OrderSummary";
+import { useSelector } from "react-redux";
 
 type Props = {};
 
 const StepForm = (props: Props) => {
-  const currentStep = 1;
+  const currentStep = useSelector((state: any) => state.checkout.currentStep);
   function renderFormByStep(step: number) {
     if (step === 1) {
       return <PersonalDetailsForm />;

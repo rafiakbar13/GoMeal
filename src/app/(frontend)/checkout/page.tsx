@@ -7,10 +7,22 @@ type Props = {};
 
 const Checkout = (props: Props) => {
   const steps = [
-    "Personal Details",
-    "Shipping Details",
-    "Payment Method",
-    "Order Summary",
+    {
+      number: 1,
+      title: "Personal Details",
+    },
+    {
+      number: 2,
+      title: "Shipping Details",
+    },
+    {
+      number: 3,
+      title: "Payment Method",
+    },
+    {
+      number: 4,
+      title: "Order Summary",
+    },
   ];
   return (
     <div>
