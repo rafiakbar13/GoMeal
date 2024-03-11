@@ -10,3 +10,5 @@ const OrderConfirmation = (props: Props) => {
     </div>
   );
 };
+
+export default OrderConfirmation;

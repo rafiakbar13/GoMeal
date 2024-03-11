@@ -14,6 +14,7 @@ export async function POST(req: Request, res: Response) {
       streetAddress,
       shippingCost,
       userId,
+      total,
     } = checkoutData;
     const newOrder = await db.order.create({
       data: {
@@ -26,6 +27,7 @@ export async function POST(req: Request, res: Response) {
         streetAddress,
         shippingCost: parseFloat(shippingCost),
         orderStatus: "pending", // Add the missing property 'orderStatus'
+        total: parseFloat(total),
       },
     });
     // Create order items

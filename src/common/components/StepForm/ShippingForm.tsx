@@ -70,9 +70,9 @@ const ShippingDetailForm = (props: Props) => {
             <li>
               <input
                 type="radio"
-                id="cheap"
-                name="shipping-cost"
-                value="10"
+                id="hosting-small"
+                name="shippingCost"
+                value="10000"
                 className="hidden peer"
                 required
                 onChange={(e) => setShippingCost(e.target.value)}
@@ -95,10 +95,11 @@ const ShippingDetailForm = (props: Props) => {
             <li>
               <input
                 type="radio"
-                id="expensive"
-                name="shipping-cost"
-                value="15"
+                id="hosting-big"
+                name="shippingCost"
+                value="20000"
                 className="hidden peer"
+                required
                 onChange={(e) => setShippingCost(e.target.value)}
               />
               <label

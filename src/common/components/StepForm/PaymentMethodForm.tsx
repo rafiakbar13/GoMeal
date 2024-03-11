@@ -25,14 +25,12 @@ type Props = {};
 
 const PaymentMethodForm = (props: Props) => {
   const [loading, setLoading] = React.useState(false);
-  const router = useRouter();
   const dispatch = useDispatch();
   const currentStep = useSelector((state: any) => state.checkout.currentStep);
   const existingFormData = useSelector(
     (state: any) => state.checkout.checkoutData
   );
-  const checkoutData = useSelector((state: any) => state.checkout.checkoutData);
-  const cartItems = useSelector((state: any) => state.cart.cartItems);
+
   const {
     register,
     reset,
@@ -50,31 +48,8 @@ const PaymentMethodForm = (props: Props) => {
   const onSubmit = async (data: any) => {
     data.paymentMethod = paymentMethod;
     // orderItems = cartItems;
-    dispatch(UpdateCheckoutData(cartItems));
-    const combinedData = {
-      orderItems: cartItems,
-      checkoutData,
-    };
-    console.log(combinedData);
-    try {
-      setLoading(true);
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-      const response = await axios.post(`${baseUrl}/api/orders`, data);
-      if (response.status === 201) {
-        toast.success(`Orders created successfully`);
-        router.push("/order-confirmation");
-      } else {
-        setLoading(false);
-        toast.error(response.data.message);
-      }
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
-    }
-
     dispatch(UpdateCheckoutData(data));
     dispatch(setCurrentStep(currentStep + 1));
-    console.log(checkoutData);
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,8 +64,8 @@ const PaymentMethodForm = (props: Props) => {
             <li>
               <input
                 type="radio"
-                id="cheap"
-                name="shipping-cost"
+                id="hosting-small"
+                name="COD"
                 value="Cash On Delivery"
                 className="hidden peer"
                 required
@@ -111,7 +86,7 @@ const PaymentMethodForm = (props: Props) => {
             <li>
               <input
                 type="radio"
-                id="expensive"
+                id="goMealPay"
                 name="GoMealPay"
                 value="15"
                 className="hidden peer"
@@ -131,13 +106,6 @@ const PaymentMethodForm = (props: Props) => {
           </ul>
         </div>
       </div>
-      {loading ? (
-        <Button disabled>Processing Please Wait...</Button>
-      ) : (
-        <Button type="submit" className="mt-5">
-          Proceed to payment
-        </Button>
-      )}
       <NavButtons />
     </form>
   );

@@ -29,7 +29,6 @@ const NavButtons = (props: Props) => {
       )}
       <button
         type="submit"
-        // onClick={handleNextStep}
         className="inline-flex items-center px-5 py-2 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-slate-900 rounded-lg focus:ring-4 focus:ring-blue-200"
       >
         <span>Next</span>

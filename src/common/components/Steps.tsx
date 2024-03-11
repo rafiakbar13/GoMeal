@@ -4,12 +4,28 @@ import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
 
-type Props = {
-  steps: { number: number; title: string }[];
-};
-
-const Steps = ({ steps }: Props) => {
+const Steps = () => {
+  const steps = [
+    {
+      number: 1,
+      title: "Personal Details",
+    },
+    {
+      number: 2,
+      title: "Shipping Details",
+    },
+    {
+      number: 3,
+      title: "Payment Method",
+    },
+    {
+      number: 4,
+      title: "Order Summary",
+    },
+  ];
   const currentStep = useSelector((state: any) => state.checkout.currentStep);
+  const cart = useSelector((state: any) => state.cart);
+
   return (
     <nav className="flex text-sm md:text-xl mb-8">
       <ol
@@ -19,14 +35,13 @@ const Steps = ({ steps }: Props) => {
         <li>
           <div className="-m-1">
             <Link
-              href="/cart"
+              href="/"
               title=""
               className="inline-flex items-center p-1 text-sm font-medium text-gray-500 rounded-md focus:outline-none focus:ring-2 focus:text-gray-900 focus:ring-gray-900 hover:text-gray-700"
             >
               Cart
               <span className="inline-flex items-center justify-center w-5 h-5 ml-2 text-xs font-bold bg-gray-400 rounded-full text-gray-50">
-                {" "}
-                4{" "}
+                {cart.length}
               </span>
             </Link>
           </div>
@@ -40,11 +55,10 @@ const Steps = ({ steps }: Props) => {
                 <div className="-m-1">
                   <p
                     title=""
-                    className={`"p-1 ml-1.5 text-sm md:text-base font-medium text-gray-500 rounded-md focus:outline-none focus:ring-2 focus:text-gray-900 focus:ring-gray-900 hover:text-gray-700" ${
+                    className={`p-1 ml-1.5 text-sm md:text-base font-medium text-gray-500 rounded-md focus:outline-none focus:ring-2 focus:text-gray-900 focus:ring-gray-900 hover:text-gray-700 ${
                       step.number === currentStep ? "text-primary" : ""
                     }`}
                   >
-                    {" "}
                     {step.title}
                   </p>
                 </div>
