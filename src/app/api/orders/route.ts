@@ -38,6 +38,8 @@ export async function POST(req: Request, res: Response) {
         price: parseFloat(item.price),
         // orderId: item.id,
         orderId: newOrder.id,
+        imageUrl: item.image,
+        name: item.name,
       })),
     });
     console.log(newOrder, orderItemsData);
@@ -56,6 +58,9 @@ export async function GET(request: NextRequest) {
     const orders = await db.order.findMany({
       orderBy: {
         createdAt: "desc",
+      },
+      include: {
+        fooditems: true,
       },
     });
     return NextResponse.json(orders, { status: 200 });
