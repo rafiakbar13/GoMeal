@@ -6,4 +6,4 @@ export function middleware(req: NextRequest) {
   return res;
 }
 
-export default withAuth(middleware, ["/home", "/dashboard"]);
+export default withAuth(middleware, ["/home/*", "/dashboard/*"]);

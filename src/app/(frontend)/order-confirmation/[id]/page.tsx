@@ -1,14 +1,17 @@
+import { convertCurrency } from "@/common/lib/convertCurrency";
 import { getData } from "@/common/lib/getData";
 import { Item } from "@radix-ui/react-dropdown-menu";
 import { CheckCircle2 } from "lucide-react";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 import React from "react";
 
 export default async function page({ params: { id } }: any) {
   const order = await getData(`orders/${id}`);
-  const { foodItems } = order;
-  console.log(foodItems);
-  const subTotal = foodItems
+
+  const { fooditems } = order;
+  console.log(fooditems);
+  const subTotal = fooditems
     .reduce((acc: any, item: any) => acc + item.price * item.quantity, 0)
     .toFixed(2);
   return (
@@ -50,7 +53,6 @@ export default async function page({ params: { id } }: any) {
                       </p>
                       <p className="mt-3 text-sm font-medium text-gray-600 dark:text-gray-300">
                         {order.streetAddress} {order.city}, {order.district},{" "}
-                        {order.country}
                       </p>
                     </div>
 
@@ -77,8 +79,8 @@ export default async function page({ params: { id } }: any) {
 
                   <div className="flow-root mt-8">
                     <ul className="divide-y divide-gray-200 -my-7">
-                      {foodItems.length > 0 &&
-                        foodItems.map((item: any, i: any) => {
+                      {fooditems.length > 0 &&
+                        fooditems.map((item: any, i: any) => {
                           return (
                             <li
                               key={i}
@@ -90,24 +92,21 @@ export default async function page({ params: { id } }: any) {
                                     width={200}
                                     height={200}
                                     className="object-cover w-20 h-20 rounded-lg"
-                                    src={item.imageUrl}
-                                    alt={item.title}
+                                    src={item.image}
+                                    alt={item.name}
                                   />
                                 </div>
 
                                 <div className="flex flex-col justify-between ml-5 w-44">
                                   <p className="flex-1 text-sm font-bold text-gray-900 dark:text-gray-300">
-                                    {item.title}
+                                    {item.name}
                                   </p>
-                                  {/* <p className="mt-1.5 text-sm font-medium text-gray-500">
-                                    Golden
-                                  </p> */}
                                 </div>
                               </div>
 
                               <div className="ml-auto">
                                 <p className="text-sm font-bold text-right text-gray-900 dark:text-gray-300">
-                                  ${item.price}
+                                  {convertCurrency(item.price)}
                                 </p>
                               </div>
                             </li>
@@ -124,7 +123,7 @@ export default async function page({ params: { id } }: any) {
                         Sub total
                       </p>
                       <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
-                        {/* ${subTotal} */}
+                        {convertCurrency(subTotal)}
                       </p>
                     </li>
 

@@ -30,6 +30,20 @@ export async function POST(req: Request, res: Response) {
         total: parseFloat(total),
       },
     });
+
+    // Order Number
+    const generateOrderNumber = (length: number) => {
+      const characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      let orderNumber = "";
+
+      for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        orderNumber += characters.charAt(randomIndex);
+      }
+
+      return orderNumber;
+    };
+
     // Create order items
     const orderItemsData = await db?.foodOrder.createMany({
       data: orderItems.map((item: any) => ({
@@ -38,14 +52,17 @@ export async function POST(req: Request, res: Response) {
         price: parseFloat(item.price),
         // orderId: item.id,
         orderId: newOrder.id,
-        imageUrl: item.image,
+        image: item.image,
         name: item.name,
+        orderNumber: generateOrderNumber(8),
       })),
     });
     console.log(newOrder, orderItemsData);
 
     return NextResponse.json(newOrder, { status: 201 });
   } catch (error) {
+    console.log(error);
+
     return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }

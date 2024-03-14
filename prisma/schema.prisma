@@ -63,6 +63,8 @@ model Order {
   phone           String
   orderStatus          String? @default("PENDING")
   streetAddress   String
+  city            String?
+  district        String?
   paymentMethod   String
   // paymentToken    String
   total           Int?
@@ -76,18 +78,18 @@ model Order {
 }
 
 model FoodOrder {
-  id       String     @id @default(uuid())
-  orderId  String
-  foodId   String
-  image    String?
-  name     String?
-  orderNumber Int
-  quantity Int
-  price    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  food     Food     @relation(fields: [foodId], references: [id])
-  order    Order    @relation(fields: [orderId], references: [id])
+  id          String    @id @default(uuid())
+  orderId     String    
+  foodId      String    
+  image       String?
+  name        String?
+  orderNumber String?
+  quantity    Int
+  price       Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  food        Food      @relation(fields: [foodId], references: [id], onDelete: Cascade)
+  order       Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
 

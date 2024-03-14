@@ -65,7 +65,7 @@ const OrderSummary = (props: Props) => {
       const response = await axios.post(`${baseUrl}/api/orders`, combinedData);
       if (response.status === 201) {
         toast.success(`Orders created successfully`);
-        router.push("/order-confirmation");
+        router.push(`/order-confirmation/${response.data.id}`);
       } else {
         setLoading(false);
         toast.error(response.data.message);

@@ -18,6 +18,7 @@ import Loading from "@/app/loading";
 
 import { UserAvatar } from "../../components/UserAvatar";
 import Balance from "@/module/user/Balance/components/Balance";
+import Link from "next/link";
 const SidebarRight = () => {
   const cart = useSelector((state: any) => state.cart);
   const pathname = usePathname();
@@ -29,11 +30,11 @@ const SidebarRight = () => {
   )
     return null;
 
-  const Checkout = (e: any) => {
-    e.preventDefault();
-    // const cart = JSON.parse(localStorage.getItem("cart") || "") || [];
-    console.log(cart);
-  };
+  // const Checkout = (e: any) => {
+  //   e.preventDefault();
+  //   // const cart = JSON.parse(localStorage.getItem("cart") || "") || [];
+  //   console.log(cart);
+  // };
 
   const { data: session, status } = useSession();
 
@@ -93,12 +94,11 @@ const SidebarRight = () => {
                   Have a Coupon Code
                   <BiChevronRight className="ml-3" size={20} />
                 </Button>
-                <Button
-                  onClick={Checkout}
-                  className="bg-primary text-white w-full mt-4 py-4"
-                >
-                  Checkout
-                </Button>
+                <Link href="/checkout">
+                  <Button className="bg-primary text-white w-full mt-4 py-4">
+                    Checkout
+                  </Button>
+                </Link>
               </div>
             )}
           </div>

@@ -1,12 +1,15 @@
 import { db } from "@/common/lib/db";
 import { NextApiRequest } from "next";
-import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 
-export async function GET({ params: { id } }: any) {
+import { NextResponse } from "next/server";
+
+export async function GET(req: NextApiRequest, { params }: any) {
   try {
+    const id = params.id;
     const order = await db.order.findUnique({
       where: {
-        id,
+        id: id as string,
       },
       include: {
         fooditems: true,
@@ -15,51 +18,27 @@ export async function GET({ params: { id } }: any) {
     return NextResponse.json(order, { status: 200 });
   } catch (error) {
     console.log(error);
-    return NextResponse.json(
-      {
-        message: "Failed to fetch order",
-        error,
-      },
-      {
-        status: 500,
-      }
-    );
+    return NextResponse.json({
+      message: "Failed to get Order",
+      error,
+    });
   }
 }
 
-export async function DELETE({ params: { id } }: any) {
+export async function DELETE(req: any, { params }: any) {
   try {
-    const existingOrder = await db.order.findUnique({
+    const id = params.id;
+    const order = await db.order.delete({
       where: {
-        id,
+        id: id as string,
       },
     });
-    if (!existingOrder) {
-      return NextResponse.json(
-        {
-          message: "Order not found",
-        },
-        {
-          status: 404,
-        }
-      );
-    }
-    const deleteOrder = await db.order.delete({
-      where: {
-        id,
-      },
-    });
-    return NextResponse.json(deleteOrder, { status: 200 });
+    return NextResponse.json({ message: "Order deleted successfully" });
   } catch (error) {
     console.log(error);
-    return NextResponse.json(
-      {
-        message: "Failed to fetch order",
-        error,
-      },
-      {
-        status: 500,
-      }
-    );
+    return NextResponse.json({
+      message: "Failed to delete Order",
+      error,
+    });
   }
 }
