@@ -9,7 +9,7 @@ export async function GET(req: NextApiRequest, { params }: any) {
     const id = params.id;
     const order = await db.order.findUnique({
       where: {
-        id: id as string,
+        id: id,
       },
       include: {
         fooditems: true,

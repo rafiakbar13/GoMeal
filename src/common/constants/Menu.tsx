@@ -58,7 +58,7 @@ export const MENU_ADMIN: MenuProps[] = [
   {
     name: "Food Order",
     icon: <Image src={FoodDelivery} alt="bakery" />,
-    path: "/dashboard/history",
+    path: "/dashboard/orders",
   },
   {
     name: "Settings",

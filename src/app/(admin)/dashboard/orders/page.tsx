@@ -2,11 +2,11 @@ import React from "react";
 
 type Props = {};
 
-const HistoryPage = (props: Props) => {
-  return <div>HistoryPage</div>;
+const Orders = (props: Props) => {
+  return <div>Orders</div>;
 };
 
-export default HistoryPage;
+export default Orders;
 
 /*
 order 

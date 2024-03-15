@@ -6,7 +6,7 @@ import {
   NextResponse,
 } from "next/server";
 
-const onlyAdmin = ["/dashboard"];
+const onlyAdmin = ["/dashboard/*"];
 
 export default function withAuth(
   middleware: NextMiddleware,
