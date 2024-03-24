@@ -2,11 +2,38 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/common/components/ui/checkbox";
-import { DataTableColumnHeader } from "./data-table-column-header";
-import type { Bills } from "@/common/types/Bills";
-import { FaMapMarkerAlt } from "react-icons/fa";
-import { DataTableRowActions } from "./data-table-row-actions";
-export const columns: ColumnDef<Bills>[] = [
+import { DataTableColumnHeader } from "@/common/components/data-table/data-table-column-header";
+import { FoodOrder } from "@prisma/client";
+import DateColumn from "@/common/components/data-table/data-table-columns/DateColumn";
+import { convertCurrency } from "@/common/lib/convertCurrency";
+import Image from "next/image";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/common/components/ui/tooltip";
+import { statusClassMap } from "@/common/lib/statusClassMap";
+import ImageColumn from "@/common/components/data-table/data-table-columns/ImageColumn";
+type Order = {
+  id: number;
+  menu: string;
+  quantity: number;
+  total: number;
+  orderStatus: string;
+  orderNumber: string;
+  createdAt: Date;
+  streetAddress: string;
+  image: string;
+  paymentMethod: string;
+  fooditems: FoodOrder[];
+};
+
+const getStatusClass = (status: string) => {
+  return statusClassMap[status as keyof typeof statusClassMap] || "";
+};
+
+export const columns: ColumnDef<Order>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -34,6 +61,13 @@ export const columns: ColumnDef<Bills>[] = [
         className=" text-zinc-950 font-semibold"
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center">
+          <span className="ml-2">{row.original.orderNumber}</span>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "menu",
@@ -44,14 +78,27 @@ export const columns: ColumnDef<Bills>[] = [
       />
     ),
     cell: ({ row }) => (
-      <div className="flex items-center">
-        {row.original.image}
-        <div className="ml-2 flex flex-col">
-          <span className="font-semibold">{row.original.menu}</span>
-          <span className="text-xs text-zinc-400">
-            {row.original.quantity}x
-          </span>
-        </div>
+      <div>
+        {row.original.fooditems.map((food, index) => (
+          <>
+            <TooltipProvider key={food.id}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Image
+                    src={food.image ?? ""}
+                    alt={food.name ?? ""}
+                    width={40}
+                    height={40}
+                    className="rounded-md"
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span className="text-zinc-950">{food.name}</span>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </>
+        ))}
       </div>
     ),
   },
@@ -64,45 +111,20 @@ export const columns: ColumnDef<Bills>[] = [
       />
     ),
     cell: ({ row }) => {
-      const status = row.getValue("status") as Bills["status"];
-      return (
-        <span
-          className={`${
-            status === "completed"
-              ? "bg-lime-50 border border-lime-300 text-lime-500 hover:bg-lime-50 hover:text-lime-500 px-4 py-2 text-right rounded-xl"
-              : ""
-          }`}
-        >
-          {status}
-        </span>
-      );
+      const status = row.original.orderStatus;
+      return <span className={`${getStatusClass(status)}`}>{status}</span>;
     },
   },
   {
-    accessorKey: "date",
+    accessorKey: "createdAt",
     header: () => (
       <DataTableColumnHeader
         title="Date"
         className=" text-zinc-950 font-semibold"
       />
     ),
-  },
-  {
-    accessorKey: "address",
-    header: () => (
-      <DataTableColumnHeader
-        title="Address"
-        className=" text-zinc-950 font-semibold"
-      />
-    ),
     cell: ({ row }) => {
-      const address = row.getValue("address") as Bills["address"];
-      return (
-        <div className="flex items-center">
-          <FaMapMarkerAlt className="mr-1 text-primary" size={16} />
-          <span className="">{address}</span>
-        </div>
-      );
+      return <DateColumn row={row} accessorKey="createdAt" />;
     },
   },
   {
@@ -115,18 +137,9 @@ export const columns: ColumnDef<Bills>[] = [
     ),
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("total"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      const number = formatted.split("$");
       return (
         <div className="font-medium">
-          <span className="">
-            <span className="text-primary mr-[2px]">$</span>
-            {number[1]}
-          </span>
+          <span className="">{convertCurrency(amount)}</span>
         </div>
       );
     },
@@ -139,5 +152,12 @@ export const columns: ColumnDef<Bills>[] = [
         className=" text-zinc-950 font-semibold"
       />
     ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center">
+          <span className="">{row.original.paymentMethod}</span>
+        </div>
+      );
+    },
   },
 ];

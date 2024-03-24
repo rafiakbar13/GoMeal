@@ -6,30 +6,18 @@ export async function POST(req: Request, res: Response) {
   try {
     const { checkoutData, orderItems } = await req.json();
     const {
+      city,
+      district,
+      email,
       firstName,
       lastName,
-      email,
-      phone,
       paymentMethod,
-      streetAddress,
+      phone,
       shippingCost,
+      streetAddress,
       userId,
       total,
     } = checkoutData;
-    const newOrder = await db.order.create({
-      data: {
-        userId,
-        firstName,
-        lastName,
-        email,
-        phone,
-        paymentMethod,
-        streetAddress,
-        shippingCost: parseFloat(shippingCost),
-        orderStatus: "pending", // Add the missing property 'orderStatus'
-        total: parseFloat(total),
-      },
-    });
 
     // Order Number
     const generateOrderNumber = (length: number) => {
@@ -44,6 +32,23 @@ export async function POST(req: Request, res: Response) {
       return orderNumber;
     };
 
+    const newOrder = await db.order.create({
+      data: {
+        userId,
+        firstName,
+        lastName,
+        email,
+        phone,
+        streetAddress,
+        city,
+        district,
+        total: parseFloat(total),
+        shippingCost: parseFloat(shippingCost),
+        paymentMethod,
+        orderNumber: generateOrderNumber(8),
+      },
+    });
+
     // Create order items
     const orderItemsData = await db?.foodOrder.createMany({
       data: orderItems.map((item: any) => ({
@@ -54,7 +59,6 @@ export async function POST(req: Request, res: Response) {
         orderId: newOrder.id,
         image: item.image,
         name: item.name,
-        orderNumber: generateOrderNumber(8),
       })),
     });
     console.log(newOrder, orderItemsData);

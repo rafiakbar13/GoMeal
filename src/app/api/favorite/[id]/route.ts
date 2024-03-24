@@ -1,14 +1,29 @@
 import { db } from "@/common/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: any, { params }: any) {
+export async function GET(req: NextRequest, { params }: any) {
   const id = params.id;
+  const searchParams = req.nextUrl.searchParams;
+  const name = searchParams.get("name");
+  console.log(name);
 
   try {
     const user = await db.user.findUnique({
-      where: { id: id },
-      include: { favoriteFoods: true },
+      where: { id },
+      select: {
+        favoriteFoods: {
+          where: {
+            name: {
+              contains: name?.toString(),
+              mode: "insensitive",
+            },
+          },
+        },
+      },
     });
+
+    console.log(user);
+
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
@@ -22,3 +37,5 @@ export async function GET(req: any, { params }: any) {
     );
   }
 }
+
+export async function DELETE() {}

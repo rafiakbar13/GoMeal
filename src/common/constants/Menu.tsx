@@ -15,27 +15,27 @@ export const MENU: MenuProps[] = [
   {
     name: "Food Order",
     icon: <Image src={Scooter} alt="bakery" />,
-    path: "/delivery",
+    path: "/home/delivery",
   },
   {
     name: "Favorite",
     icon: <Image src={Favorite} alt="bakery" />,
-    path: "/favorite",
+    path: "/home/favorite",
   },
   {
     name: "Order History",
     icon: <Image src={FoodDelivery} alt="bakery" />,
-    path: "/history",
+    path: "/home/history",
   },
   {
     name: "Bills",
     icon: <Image src={Bill} alt="bakery" />,
-    path: "/bills",
+    path: "/home/bills",
   },
   {
     name: "Settings",
     icon: <Image src={Setting} alt="bakery" />,
-    path: "/settings",
+    path: "/home/settings",
   },
 ];
 

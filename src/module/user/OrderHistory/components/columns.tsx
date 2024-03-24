@@ -3,9 +3,31 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/common/components/ui/checkbox";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import type { OrderHistory } from "@/common/types/OrderHistory";
-import { DataTableColumnHeader } from "../../Bills/components/data-table-column-header";
+import { DataTableColumnHeader } from "@/common/components/data-table/data-table-column-header";
+import DateColumn from "@/common/components/data-table/data-table-columns/DateColumn";
+import { FoodOrder } from "@prisma/client";
+import ImageColumn from "@/common/components/data-table/data-table-columns/ImageColumn";
+import Image from "next/image";
+import { convertCurrency } from "@/common/lib/convertCurrency";
+import { statusClassMap } from "@/common/lib/statusClassMap";
 
-export const columns: ColumnDef<OrderHistory>[] = [
+type Order = {
+  id: number;
+  menu: string;
+  quantity: number;
+  total: number;
+  orderStatus: string;
+  createdAt: Date;
+  streetAddress: string;
+  image: string;
+  fooditems: FoodOrder[];
+};
+
+const getStatusClass = (status: string) => {
+  return statusClassMap[status as keyof typeof statusClassMap] || "";
+};
+
+export const columns: ColumnDef<Order>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -33,27 +55,34 @@ export const columns: ColumnDef<OrderHistory>[] = [
         className=" text-zinc-950 font-semibold"
       />
     ),
-    cell: ({ row }) => (
-      <div className="flex items-center">
-        {row.original.image}
-        <div className="ml-2 flex flex-col">
-          <span className="font-semibold">{row.original.menu}</span>
-          <span className="text-xs text-zinc-400">
-            {row.original.quantity}x
-          </span>
+    cell: ({ row }) => {
+      return (
+        <div>
+          {row.original.fooditems.map((food, index) => (
+            <div key={food.foodId} className="flex items-center">
+              <Image
+                src={food.image ?? ""}
+                alt={food.name ?? ""}
+                width={40}
+                height={40}
+                className="rounded-md"
+              />
+              <span className="text-zinc-950">{food.name}</span>
+            </div>
+          ))}
         </div>
-      </div>
-    ),
+      );
+    },
   },
 
   {
-    accessorKey: "date",
-    header: () => (
-      <DataTableColumnHeader
-        title="Date"
-        className=" text-zinc-950 font-semibold"
-      />
-    ),
+    accessorKey: "createdAt",
+    header: "Date",
+    cell: ({ row }) => {
+      console.log(row.original.createdAt);
+
+      return <DateColumn row={row} accessorKey="createdAt" />;
+    },
   },
   {
     accessorKey: "address",
@@ -64,11 +93,10 @@ export const columns: ColumnDef<OrderHistory>[] = [
       />
     ),
     cell: ({ row }) => {
-      const address = row.getValue("address") as OrderHistory["address"];
       return (
         <div className="flex items-center">
           <FaMapMarkerAlt className="mr-1 text-primary" size={16} />
-          <span className="">{address}</span>
+          <span className="">{row.original.streetAddress}</span>
         </div>
       );
     },
@@ -83,18 +111,9 @@ export const columns: ColumnDef<OrderHistory>[] = [
     ),
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("total"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      const number = formatted.split("$");
       return (
         <div className="font-medium">
-          <span className="">
-            <span className="text-primary mr-[2px]">$</span>
-            {number[1]}
-          </span>
+          <span className="">{convertCurrency(amount)}</span>
         </div>
       );
     },
@@ -108,19 +127,8 @@ export const columns: ColumnDef<OrderHistory>[] = [
       />
     ),
     cell: ({ row }) => {
-      const status = row.getValue("status") as OrderHistory["status"];
-      const statusClassMap: Record<OrderHistory["status"], string> = {
-        completed:
-          "bg-lime-50 border border-lime-300 text-lime-500 hover:bg-lime-50 hover:text-lime-500 px-4 py-2 text-right rounded-xl",
-        pending:
-          "bg-blue-50 border border-blue-300 text-blue-500 hover:bg-blue-50 hover:text-blue-500 px-4 py-2 text-right rounded-xl",
-        delivering:
-          "bg-yellow-50 border border-yellow-300 text-yellow-500 hover:bg-yellow-50 hover:text-yellow-500 px-4 py-2 text-right rounded-xl",
-        cancelled:
-          "bg-red-50 border border-red-300 text-red-500 hover:bg-red-50 hover:text-red-500 px-4 py-2 text-right rounded-xl",
-      };
-      const statusClassName = statusClassMap[status] || "";
-      return <span className={statusClassName}>{status}</span>;
+      const status = row.original.orderStatus;
+      return <span className={`${getStatusClass(status)}`}>{status}</span>;
     },
   },
 ];

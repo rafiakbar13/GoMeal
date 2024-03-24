@@ -9,7 +9,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/common/components/ui/input";
 import { Label } from "@/common/components/ui/label";
 import { Button } from "@/common/components/ui/button";
-const Settings = () => {
+import FormInput from "@/common/components/Form/FormInput";
+import { User } from "@prisma/client";
+
+const Settings = ({ user }: { user: User }) => {
   const {
     register,
     handleSubmit,
@@ -18,7 +21,9 @@ const Settings = () => {
     resolver: zodResolver(SettingSchema),
   });
 
-  const onSubmit = (data: SettingSchemaType) => {};
+  const onSubmit = (data: SettingSchemaType) => {
+    console.log(data);
+  };
   return (
     <section className="m-10 flex flex-col items-center justify-center h-screen">
       {/* Profile */}
@@ -43,7 +48,7 @@ const Settings = () => {
         </label>
         <div>
           <h1 className="font-semibold text-lg leading-10">Rafi</h1>
-          <span>rafi@gmail.com</span>
+          <span>{user.email}</span>
         </div>
       </article>
       {/* Form */}
@@ -52,65 +57,49 @@ const Settings = () => {
         className="grid grid-cols-2 w-full items-center gap-x-6 mx-auto gap-y-10 mt-10"
       >
         <div className="mb-5">
-          <Label htmlFor="fullname" className="text-[14px]">
-            Fullname
-          </Label>
-          <Input
-            {...register("fullname")}
-            type="text"
-            placeholder="Fullname"
-            className="w-full px-4 py-3 border border-solid border-gray-300 rounded-md text-[16px] text-primary-500 font-[400] focus:outline-none leading-7 placeholder:text-gray-300 cursor-pointer focus-visible:ring-1 focus-visible:ring-primary"
+          <FormInput
+            label="Fullname"
+            defaultValue={user.fullname}
+            errors={errors}
+            register={register}
+            name="fullname"
+            className="w-full focus:outline-none  border-none"
           />
-          {errors.fullname?.message && (
-            <p className="text-red-500 text-[14px]">{`${errors.fullname.message}`}</p>
-          )}
         </div>
         <div className="mb-5">
-          <Label htmlFor="email" className="text-[14px]">
-            Email
-          </Label>
-          <Input
-            {...register("email")}
-            type="email"
-            placeholder="Enter Your Email"
-            className="w-full px-4 py-3 border border-solid border-gray-300 rounded-md text-[16px] text-primary-500 font-[400] focus:outline-none leading-7 placeholder:text-gray-300 cursor-pointer focus-visible:ring-1 focus-visible:ring-primary"
+          <FormInput
+            label="Email"
+            defaultValue={user.email}
+            errors={errors}
+            register={register}
+            name="email"
+            className="w-full focus:outline-none  border-none"
           />
-          {errors.email?.message && (
-            <p className="text-red-500 text-[14px]">{`${errors.email.message}`}</p>
-          )}
         </div>
         <div className="mb-5">
-          <Label htmlFor="password" className="text-[14px]">
-            Password
-          </Label>
-          <Input
-            {...register("password")}
+          <FormInput
+            label="Password"
+            errors={errors}
+            register={register}
+            name="password"
+            className="w-full focus:outline-none  border-none"
             type="password"
-            placeholder="Password"
-            className="w-full px-4 py-3 border border-solid border-gray-300 rounded-md text-[16px] text-primary-500 font-[400] focus:outline-none leading-7 placeholder:text-gray-300 cursor-pointer focus-visible:ring-1 focus-visible:ring-primary"
+            placeholder="Enter your password"
           />
-          {errors.password?.message && (
-            <p className="text-red-500 text-[14px]">{`${errors.password.message}`}</p>
-          )}
         </div>
 
         <div className="mb-5">
-          <Label htmlFor="phone" className="text-[14px]">
-            Phone
-          </Label>
-          <Input
-            {...register("phone")}
-            type="tel"
-            placeholder="018200141"
-            className="w-full px-4 py-3 border border-solid border-gray-300 rounded-md text-[16px] text-primary-500 font-[400] focus:outline-none leading-7 placeholder:text-gray-300 cursor-pointer focus-visible:ring-1 focus-visible:ring-primary"
+          <FormInput
+            label="Address"
+            errors={errors}
+            register={register}
+            name="address"
+            className="w-full focus:outline-none border-none  "
           />
-          {errors.phone?.message && (
-            <p className="text-red-500 text-[14px]">{`${errors.phone.message}`}</p>
-          )}
         </div>
 
         <Button
-          type="submit"
+          type="button"
           className="text-white py-[15px] px-[35px] rounded-md mt-4 w-full shadow"
         >
           Save Changes

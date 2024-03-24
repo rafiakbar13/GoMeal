@@ -1,20 +1,16 @@
 "use client";
 import React from "react";
 import { IoMdSettings, IoMdNotificationsOutline } from "react-icons/io";
-import { Avatar, AvatarImage } from "../../components/ui/avatar";
-import { Card, CardContent } from "../../components/ui/card";
 import { BiMap } from "react-icons/bi";
 import { BiChevronRight } from "react-icons/bi";
 
 import Image from "next/image";
 import { Button } from "../../components/ui/button";
-import Pepproni from "@images/images/Pizza/pepproni-pizza.png";
 import Coupon from "@images/icon/Coupon.svg";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Cart from "@/module/user/cart/component/Cart";
 import { useSelector } from "react-redux";
-import { signOut, useSession } from "next-auth/react";
-import Loading from "@/app/loading";
+import { useSession } from "next-auth/react";
 
 import { UserAvatar } from "../../components/UserAvatar";
 import Balance from "@/module/user/Balance/components/Balance";
@@ -36,8 +32,12 @@ const SidebarRight = () => {
   //   console.log(cart);
   // };
 
+  const router = useRouter();
   const { data: session, status } = useSession();
-
+  if (status === "loading") return null;
+  if (status === "unauthenticated") {
+    router.push("/sign-in");
+  }
   return (
     <aside className="w-[300px] py-10 h-full">
       <article className="px-4">

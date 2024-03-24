@@ -14,6 +14,7 @@ type Props = {};
 const Cart = (props: Props) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: any) => state.cart);
+  console.log(cartItems);
 
   const subtotal = cartItems.reduce((acc: number, item: any) => {
     return acc + item.price * item.qty;
@@ -21,14 +22,12 @@ const Cart = (props: Props) => {
 
   const handleIncreaseQty = (item: any) => {
     if (item.qty >= 1) {
-      // update qty
       dispatch(incrementQty({ id: item.id }));
     }
   };
 
   const handleDecreaseQty = (item: any) => {
     if (item.qty > 1) {
-      // update qty
       dispatch(decrementQty({ id: item.id }));
     }
   };

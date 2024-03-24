@@ -6,9 +6,8 @@ export async function GET(req: NextApiRequest, { params }: any) {
   try {
     const userId = params.id;
     const orders = await db.order.findMany({
-      // Menggunakan findMany untuk mendapatkan semua order
       where: {
-        userId: userId, // Menggunakan params.id untuk mendapatkan userId dari permintaan
+        userId: userId,
       },
       include: {
         fooditems: true,
@@ -16,11 +15,10 @@ export async function GET(req: NextApiRequest, { params }: any) {
     });
 
     if (orders.length === 0) {
-      // Memeriksa apakah tidak ada order ditemukan
       return NextResponse.json({ message: "Order not found" }, { status: 404 });
     }
 
-    return NextResponse.json(orders, { status: 200 }); // Mengembalikan semua order yang ditemukan
+    return NextResponse.json(orders, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json({

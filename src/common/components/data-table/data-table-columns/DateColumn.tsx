@@ -4,6 +4,7 @@ type Props = {};
 
 const DateColumn = ({ row, accessorKey }: any) => {
   const createdAt = row.getValue(`${accessorKey}`);
+  console.log(createdAt);
   const originalCreatedAt = new Date(createdAt as Date);
   const day = originalCreatedAt.getDate();
   const month = originalCreatedAt.toLocaleDateString("default", {
