@@ -77,7 +77,7 @@ const PopularDishes = (props: Props) => {
     RemoveFavorites.isSuccess && toast.success("Removed from favorite");
   };
 
-  console.log(RemoveFavorites);
+  // console.log(RemoveFavorites);
 
   return (
     <article className="mt-5">

@@ -14,7 +14,7 @@ type Props = {};
 const Cart = (props: Props) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: any) => state.cart);
-  console.log(cartItems);
+  // console.log(cartItems);
 
   const subtotal = cartItems.reduce((acc: number, item: any) => {
     return acc + item.price * item.qty;

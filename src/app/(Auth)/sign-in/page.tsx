@@ -37,11 +37,11 @@ const LoginPage = () => {
       console.log(loginData);
       if (loginData?.ok) {
         toast.success("Logged In Successfully");
+        router.push("/home");
+        reset();
       } else {
         toast.error("Invalid Credentials");
       }
-      reset();
-      router.push("/home");
     } catch (error) {
       console.error(error);
 

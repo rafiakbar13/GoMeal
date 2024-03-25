@@ -28,9 +28,10 @@ export const SettingSchema = z.object({
   password: z
     .string()
     .min(6, { message: "Password must be at least 6 characters" }),
-  phone: z
-    .number()
-    .min(10, { message: "Phone number must be at least 10 characters" }),
+  address: z
+    .string()
+    .min(3, { message: "Address must be at least 3 characters" }),
+  image: z.instanceof(FileList),
 });
 
 export type SettingSchemaType = z.infer<typeof SettingSchema>;
