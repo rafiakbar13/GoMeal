@@ -13,29 +13,39 @@ import axios from "axios";
 import { toast } from "sonner";
 
 const Settings = ({ user }: { user: User }) => {
-  const [avatar, setAvatar] = useState();
-  const [avatarPreview, setAvatarPreview] = useState(null);
+  const [avatar, setAvatar] = useState<string | ArrayBuffer | null>(null); string or ArrayBuffer
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const handleAvatar = (e: any) => {
-    const selectedFile = e.target.files[0];
-    setAvatar(selectedFile);
-
-    const reader = new FileReader();
-    reader.onload = (event: any) => {
-      setAvatarPreview(event.target.result);
-    };
-    reader.readAsDataURL(selectedFile);
+  const handleAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0]; 
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = (event: ProgressEvent<FileReader>) => {
+        setAvatar(event.target?.result as string | ArrayBuffer | null); // Set avatar to the result of FileReader.readAsDataURL, which is a string
+      };
+      reader.readAsDataURL(selectedFile); // Read file as a data URL
+    }
   };
-  console.log(avatar);
 
   const onSubmit = async (data: any) => {
+    const formData = new FormData();
+    if (avatar) {
+      // If avatar is not null, append it to the formData
+      formData.append("image", avatar.toString()); // Convert avatar from ArrayBuffer to string before appending
+    }
+    formData.append("fullname", data.fullname);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("address", data.address);
+
     try {
-      const response = await axios.patch(`/api/user/${user.id}`, data);
+      const response = await axios.patch(`/api/user/${user.id}`, formData);
+      console.log(response);
+
       if (response.status === 200) {
         toast.success("User Updated Successfully");
       }
@@ -44,6 +54,7 @@ const Settings = ({ user }: { user: User }) => {
     }
     console.log(data);
   };
+
   return (
     <section className="m-10 flex flex-col items-center justify-center h-screen">
       {/* Profile */}
@@ -53,9 +64,10 @@ const Settings = ({ user }: { user: User }) => {
       >
         <label htmlFor="avatar" className="relative cursor-pointer">
           <Image
-            src={user.image ? user.image : Profile}
+            src={avatar ? String(avatar) : user.image ? user.image : Profile} // Convert avatar to string using String() before assigning it to src
             alt=""
             width={80}
+            height={80}
             className="shadow-sm rounded-full shadow-primary"
           />
           <input

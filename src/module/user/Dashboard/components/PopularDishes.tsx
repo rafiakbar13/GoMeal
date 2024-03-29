@@ -107,7 +107,7 @@ const PopularDishes = (props: Props) => {
                 />
                 {hoveredIndex === i && (
                   <div>
-                    {isFavorite ? (
+                    {/* {isFavorite ? (
                       <Button
                         variant={"icon"}
                         className="absolute top-1 right-0 bg-transparent"
@@ -123,7 +123,14 @@ const PopularDishes = (props: Props) => {
                       >
                         <IoIosHeart size={24} />
                       </Button>
-                    )}
+                    )} */}
+                    <Button
+                      variant={"icon"}
+                      className="absolute top-1 right-0 bg-transparent"
+                      onClick={() => handleAddToFavorite(food.id)}
+                    >
+                      <FaRegHeart size={24} />
+                    </Button>
                   </div>
                 )}
               </CardContent>

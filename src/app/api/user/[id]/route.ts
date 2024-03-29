@@ -22,7 +22,7 @@ export async function GET(req: NextRequest, { params }: any) {
 export async function PATCH(req: NextRequest, { params }: any) {
   try {
     const id = params.id;
-    const { fullname, address, email, password } = await req.json();
+    const { fullname, address, email, password, image } = await req.json();
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await db.user.update({
       where: {
@@ -33,6 +33,7 @@ export async function PATCH(req: NextRequest, { params }: any) {
         address,
         email,
         password: hashedPassword,
+        image,
       },
     });
     return NextResponse.json(user, { status: 200 });

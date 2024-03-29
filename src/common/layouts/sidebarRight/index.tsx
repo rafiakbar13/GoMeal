@@ -50,36 +50,13 @@ const SidebarRight = () => {
         </div>
         <Balance />
         {/* Address */}
-        <article className="mt-8">
-          <h1 className="text-zinc-400 text-lg font-normal font-['Poppins']">
-            Address
-          </h1>
-          <div className="flex items-center justify-between">
-            <div className="flex gap-x-2 items-center">
-              <BiMap className="text-primary" size={24} />
-              <p className="text-zinc-800 text-lg font-bold font-['Poppins']">
-                Elm Street, 23
-              </p>
-            </div>
-            <Button className="bg-white text-primary border border-primary px-4 hover:bg-white">
-              Change
-            </Button>
-          </div>
-          <p className="text-zinc-400 text-sm font-normal font-['Poppins'] mt-3">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Et,
-            reiciendis?
-          </p>
-          <div className="mt-4 flex gap-x-5">
-            <Button variant={"outline"}>Add Details</Button>
-            <Button variant={"outline"}>Add note</Button>
-          </div>
-        </article>
+        <Address />
         {/* Order Menu */}
         <article className="mt-8">
           <h1 className="text-lg font-normal font-['Poppins']">Order Menu</h1>
           <Cart />
           <div className="pt-4">
-            {pathname === "/delivery" ? (
+            {pathname === "/home/delivery" ? (
               <Button className="w-full bg-orange-50 border border-orange-300 text-orange-400 hover:bg-orange-50 hover:text-orange-400 text-base font-normal font-['Poppins']">
                 Delivering To You
               </Button>
@@ -109,3 +86,31 @@ const SidebarRight = () => {
 };
 
 export default SidebarRight;
+
+function Address({}) {
+  return (
+    <article className="mt-8">
+      <h1 className="text-zinc-400 text-lg font-normal font-['Poppins']">
+        Address
+      </h1>
+      <div className="flex items-center justify-between">
+        <div className="flex gap-x-2 items-center">
+          <BiMap className="text-primary" size={24} />
+          <p className="text-zinc-800 text-lg font-bold font-['Poppins']">
+            Elm Street, 23
+          </p>
+        </div>
+        <Button className="bg-white text-primary border border-primary px-4 hover:bg-white">
+          Change
+        </Button>
+      </div>
+      <p className="text-zinc-400 text-sm font-normal font-['Poppins'] mt-3">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, reiciendis?
+      </p>
+      <div className="mt-4 flex gap-x-5">
+        <Button variant={"outline"}>Add Details</Button>
+        <Button variant={"outline"}>Add note</Button>
+      </div>
+    </article>
+  );
+}

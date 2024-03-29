@@ -26,7 +26,7 @@ const Topup = () => {
           </p>
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[678px]">
+      <DialogContent className="sm:max-w-[690px]">
         <FormTopup />
       </DialogContent>
     </Dialog>

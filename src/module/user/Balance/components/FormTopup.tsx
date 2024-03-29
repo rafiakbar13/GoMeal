@@ -1,19 +1,40 @@
+"use client";
+import FormInput from "@/common/components/Form/FormInput";
 import { Button } from "@/common/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 import React, { useState } from "react";
-import { useForm, Controller, set } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { CiWallet } from "react-icons/ci";
+import { toast } from "sonner";
 
 const FormTopup = () => {
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control, setValue } = useForm();
   const [isDisabled, setIsDisabled] = useState(true);
   const [nominal, setNominal] = useState(0);
+  const { data: session, status } = useSession();
 
-  const handleNominalChange = (value: number) => {
-    setIsDisabled(value === 0);
-    setNominal(value);
+  if (status === "unauthenticated") return null;
+
+  const handleSetNominal = (value: number) => {
+    setValue("balance", value);
+    setIsDisabled(false);
   };
 
+  const TopupBalance = useMutation({
+    mutationFn: (formData: { userId: string; balance: number }) => {
+      return axios.post("/api/topup", formData);
+    },
+  });
+
   const onSubmit = (data: any) => {
+    const formData = {
+      userId: session?.user?.id,
+      balance: parseInt(data.balance),
+    };
+    TopupBalance.mutate(formData);
+    TopupBalance.isSuccess && toast.success("Topup Success");
     console.log(data);
   };
 
@@ -28,20 +49,16 @@ const FormTopup = () => {
             <Controller
               name="balance"
               control={control}
-              render={({ field }) => (
-                <input
-                  {...field}
-                  type="number"
-                  className="w-full outline-none h-7"
-                  placeholder="masukkan nominal Top Up"
-                  value={nominal}
-                  onChange={(e) => {
-                    const value = parseInt(e.target.value);
-                    setNominal(value);
-                    handleNominalChange(value);
-                  }}
-                />
-              )}
+              render={({ field }) => {
+                return (
+                  <input
+                    {...field}
+                    type="number"
+                    className="w-full outline-none h-7"
+                    placeholder="masukkan nominal Top Up"
+                  />
+                );
+              }}
             />
           </div>
           <Button
@@ -59,37 +76,37 @@ const FormTopup = () => {
         <div className="grid w-1/4 grid-flow-col grid-rows-2 gap-3 ml-3">
           <div className="grid w-1/4 grid-flow-col grid-rows-2 gap-3 ml-3">
             <button
-              onClick={() => handleNominalChange(10000)}
+              onClick={() => handleSetNominal(10000)}
               className="w-full px-4 text-gray-400 border-2 rounded "
             >
               Rp.10.000
             </button>
             <button
-              onClick={() => handleNominalChange(20000)}
+              onClick={() => handleSetNominal(20000)}
               className="w-full px-4 text-gray-400 border-2 rounded "
             >
               Rp.20.000
             </button>
             <button
-              onClick={() => handleNominalChange(50000)}
+              onClick={() => handleSetNominal(50000)}
               className="px-4 text-gray-400 border-2 rounded "
             >
               Rp.50.000
             </button>
             <button
-              onClick={() => handleNominalChange(100000)}
+              onClick={() => handleSetNominal(100000)}
               className="px-4 text-gray-400 border-2 rounded "
             >
               Rp.100.000
             </button>
             <button
-              onClick={() => handleNominalChange(250000)}
+              onClick={() => handleSetNominal(250000)}
               className="px-4 text-gray-400 border-2 rounded "
             >
               Rp.250.0000
             </button>
             <button
-              onClick={() => handleNominalChange(500000)}
+              onClick={() => handleSetNominal(500000)}
               className="px-4 text-gray-400 border-2 rounded "
             >
               Rp.500.0000
@@ -102,3 +119,22 @@ const FormTopup = () => {
 };
 
 export default FormTopup;
+
+{
+  /* <Controller
+  name="balance"
+  control={control}
+  render={({ field }) => (
+    <input
+      {...field}
+      type="number"
+      className="w-full outline-none h-7"
+      placeholder="masukkan nominal Top Up"
+      value={nominal}
+      onChange={(e) => {
+        field.onChange(e.target.value);
+      }}
+    />
+  )}
+/>; */
+}
