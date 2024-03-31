@@ -127,7 +127,7 @@ export const columns: ColumnDef<Order>[] = [
       />
     ),
     cell: ({ row }) => {
-      const status = row.original.orderStatus;
+      const status = row.original.orderStatus.toLowerCase();
       return <span className={`${getStatusClass(status)}`}>{status}</span>;
     },
   },

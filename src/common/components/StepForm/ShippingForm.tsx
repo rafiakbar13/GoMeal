@@ -10,9 +10,13 @@ import {
   setCurrentStep,
 } from "@/redux/slices/checkoutSlice";
 
-type Props = {};
+type Props = {
+  user: {
+    address: string;
+  };
+};
 
-const ShippingDetailForm = (props: Props) => {
+const ShippingDetailForm = ({ user }: Props) => {
   const dispatch = useDispatch();
   const currentStep = useSelector((state: any) => state.checkout.currentStep);
   const existingFormData = useSelector(
@@ -46,6 +50,7 @@ const ShippingDetailForm = (props: Props) => {
           register={register}
           required
           errors={errors}
+          defaultValue={user.address}
         />
         <FormInput
           label="City"
@@ -72,7 +77,7 @@ const ShippingDetailForm = (props: Props) => {
                 type="radio"
                 id="hosting-small"
                 name="shippingCost"
-                value="10000"
+                value={10000}
                 className="hidden peer"
                 required
                 onChange={(e) => setShippingCost(e.target.value)}
@@ -97,7 +102,7 @@ const ShippingDetailForm = (props: Props) => {
                 type="radio"
                 id="hosting-big"
                 name="shippingCost"
-                value="20000"
+                value={15000}
                 className="hidden peer"
                 required
                 onChange={(e) => setShippingCost(e.target.value)}

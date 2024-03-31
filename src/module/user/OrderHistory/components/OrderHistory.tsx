@@ -4,8 +4,20 @@ import { DataTable } from "@/common/components/data-table/data-table";
 import { getData } from "@/common/lib/getData";
 import { AuthOptions, getServerSession } from "next-auth";
 import { authOptions } from "@/common/lib/authOptions";
+import { DefaultSession } from "next-auth";
+interface SessionProps extends DefaultSession {
+  user: {
+    name?: string | null | undefined;
+    email?: string | null | undefined;
+    image?: string | null | undefined;
+    id: string | null | undefined;
+  };
+}
+
 const OrderHistory = async () => {
-  const session = await getServerSession(authOptions as AuthOptions);
+  const session: SessionProps | null = await getServerSession(
+    authOptions as AuthOptions
+  );
   if (!session) return null;
   const userId = session?.user?.id;
   const order = await getData(`orders/user/${userId}`);

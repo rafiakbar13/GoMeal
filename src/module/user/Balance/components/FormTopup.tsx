@@ -35,7 +35,6 @@ const FormTopup = () => {
     };
     TopupBalance.mutate(formData);
     TopupBalance.isSuccess && toast.success("Topup Success");
-    console.log(data);
   };
 
   return (

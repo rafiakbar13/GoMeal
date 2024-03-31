@@ -21,10 +21,9 @@ const OrderSummary = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const cartItems = useSelector((state: any) => state.cart);
-
-  const subtotal = cartItems.reduce((acc: number, item: any) => {
-    return acc + item.price * item.qty;
-  }, 0);
+  const checkoutData = useSelector((state: any) => state.checkout.checkoutData);
+  const cartItem = useSelector((state: any) => state.cart.cartItems);
+  console.log(checkoutData);
 
   const handleIncreaseQty = (item: any) => {
     if (item.qty >= 1) {
@@ -44,8 +43,11 @@ const OrderSummary = (props: Props) => {
     dispatch(removeToCart({ id }));
   };
 
-  const checkoutData = useSelector((state: any) => state.checkout.checkoutData);
-  const cartItem = useSelector((state: any) => state.cart.cartItems);
+  const shippingCost = parseInt(checkoutData.shippingCost);
+
+  const subtotal = cartItems.reduce((acc: number, item: any) => {
+    return acc + item.price * item.qty + shippingCost;
+  }, 0);
 
   const checkoutDataWithSubtotal = {
     ...checkoutData,
@@ -53,12 +55,15 @@ const OrderSummary = (props: Props) => {
   };
 
   const onSubmit = async () => {
+    if (cartItems.length === 0) {
+      toast.error("Your cart is empty");
+      return;
+    }
     dispatch(UpdateCheckoutData(cartItem));
     const combinedData = {
       orderItems: cartItems,
       checkoutData: checkoutDataWithSubtotal,
     };
-    console.log(combinedData);
     try {
       setLoading(true);
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -134,6 +139,14 @@ const OrderSummary = (props: Props) => {
       </div>
 
       <div className="pt-4 flex flex-col gap-y-3">
+        <div className="flex justify-between items-center">
+          <p className="text-zinc-800 text-lg font-medium font-['Poppins']">
+            Shipping Cost
+          </p>
+          <span className="text-zinc-800 text-2xl font-medium font-['Poppins']">
+            {convertCurrency(shippingCost)}
+          </span>
+        </div>
         <div className="flex justify-between items-center">
           <p className="text-zinc-800 text-lg font-medium font-['Poppins']">
             SubTotal

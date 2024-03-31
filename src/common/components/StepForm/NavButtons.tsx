@@ -1,3 +1,4 @@
+"use client";
 import { setCurrentStep } from "@/redux/slices/checkoutSlice";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import React from "react";

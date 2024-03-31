@@ -1,13 +1,23 @@
 import React from "react";
 import { columns } from "./columns";
-import { bills } from "@/common/constants/Bills";
 import { DataTable } from "@/common/components/data-table/data-table";
 import { AuthOptions, getServerSession } from "next-auth";
 import { getData } from "@/common/lib/getData";
 import { authOptions } from "@/common/lib/authOptions";
+import { DefaultSession } from "next-auth";
+interface SessionProps extends DefaultSession {
+  user: {
+    name?: string | null | undefined;
+    email?: string | null | undefined;
+    image?: string | null | undefined;
+    id: string | null | undefined;
+  };
+}
 
 const Bills = async () => {
-  const session = await getServerSession(authOptions as AuthOptions);
+  const session: SessionProps | null = await getServerSession(
+    authOptions as AuthOptions
+  );
   const user = session?.user?.id;
   const bills = await getData(`orders/user/${user}`);
   console.log(bills);

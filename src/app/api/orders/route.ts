@@ -1,5 +1,4 @@
 import { db } from "@/common/lib/db";
-import { Item } from "@radix-ui/react-dropdown-menu";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: Request, res: Response) {
@@ -32,22 +31,84 @@ export async function POST(req: Request, res: Response) {
       return orderNumber;
     };
 
-    const newOrder = await db.order.create({
-      data: {
-        userId,
-        firstName,
-        lastName,
-        email,
-        phone,
-        streetAddress,
-        city,
-        district,
-        total: parseFloat(total),
-        shippingCost: parseFloat(shippingCost),
-        paymentMethod,
-        orderNumber: generateOrderNumber(8),
-      },
-    });
+    let newOrder: {
+      id: any;
+      firstName?: string;
+      lastName?: string;
+      email?: string;
+      phone?: string;
+      orderStatus?: string | null;
+      streetAddress?: string;
+      city?: string | null;
+      district?: string | null;
+      paymentMethod?: string;
+      orderNumber?: string | null;
+      total?: number | null;
+      shippingCost?: number;
+      userId?: string;
+      createdAt?: Date;
+      updatedAt?: Date;
+    };
+
+    // Check if payment method is GoMealPay
+    if (paymentMethod === "GoMealPay") {
+      const user = await db.user.findUniqueOrThrow({ where: { id: userId } });
+      const userBalance = user.balance;
+      const subtotal = orderItems.reduce((acc: number, item: any) => {
+        return acc + parseFloat(item.price) * parseInt(item.qty);
+      }, 0);
+
+      // Check if user has enough balance
+      if (userBalance >= subtotal) {
+        // Deduct balance from user
+        await db.user.update({
+          where: { id: userId },
+          data: { balance: userBalance - subtotal },
+        });
+
+        // Create order after deduction
+        newOrder = await db.order.create({
+          data: {
+            userId,
+            firstName,
+            lastName,
+            email,
+            phone,
+            streetAddress,
+            city,
+            district,
+            total: parseFloat(total),
+            shippingCost: parseFloat(shippingCost),
+            paymentMethod,
+            orderNumber: generateOrderNumber(8),
+          },
+        });
+      } else {
+        // If user balance is insufficient, return error
+        return NextResponse.json(
+          { message: "Insufficient balance" },
+          { status: 400 }
+        );
+      }
+    } else {
+      // If payment method is not GoMealPay, create order directly
+      newOrder = await db.order.create({
+        data: {
+          userId,
+          firstName,
+          lastName,
+          email,
+          phone,
+          streetAddress,
+          city,
+          district,
+          total: parseFloat(total),
+          shippingCost: parseFloat(shippingCost),
+          paymentMethod,
+          orderNumber: generateOrderNumber(8),
+        },
+      });
+    }
 
     // Create order items
     const orderItemsData = await db?.foodOrder.createMany({
@@ -55,7 +116,6 @@ export async function POST(req: Request, res: Response) {
         foodId: item.id,
         quantity: parseInt(item.qty),
         price: parseFloat(item.price),
-        // orderId: item.id,
         orderId: newOrder.id,
         image: item.image,
         name: item.name,
@@ -66,7 +126,6 @@ export async function POST(req: Request, res: Response) {
     return NextResponse.json(newOrder, { status: 201 });
   } catch (error) {
     console.log(error);
-
     return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }

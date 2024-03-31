@@ -1,19 +1,16 @@
 import { convertCurrency } from "@/common/lib/convertCurrency";
 import { getData } from "@/common/lib/getData";
-import { Item } from "@radix-ui/react-dropdown-menu";
+import { Button } from "@/common/components/ui/button";
 import { CheckCircle2 } from "lucide-react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import Link from "next/link";
 import React from "react";
 
 export default async function page({ params: { id } }: any) {
   const order = await getData(`orders/${id}`);
+  console.log(order);
 
   const { fooditems } = order;
-  console.log(fooditems);
-  const subTotal = fooditems
-    .reduce((acc: any, item: any) => acc + item.price * item.quantity, 0)
-    .toFixed(2);
   return (
     <section className="py-12 dark:bg-slate-950 bg-slate-50 sm:py-16 lg:py-20">
       <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-5xl">
@@ -120,19 +117,18 @@ export default async function page({ params: { id } }: any) {
                   <ul className="space-y-4">
                     <li className="flex items-center justify-between">
                       <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
-                        Sub total
+                        Shipping Cost
                       </p>
                       <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
-                        {convertCurrency(subTotal)}
+                        {convertCurrency(order.shippingCost)}
                       </p>
                     </li>
-
                     <li className="flex items-center justify-between">
-                      <p className="text-base font-medium text-gray-900 dark:text-white">
-                        Total
+                      <p className="text-base font-medium text-gray-900 dark:text-gray-300">
+                        Sub total
                       </p>
-                      <p className="text-base font-bold text-gray-900 dark:text-white">
-                        {/* ${subTotal} */}
+                      <p className="text-base font-medium text-gray-900 dark:text-gray-300">
+                        {convertCurrency(order.total)}
                       </p>
                     </li>
                   </ul>
@@ -140,6 +136,11 @@ export default async function page({ params: { id } }: any) {
               </div>
             </div>
           </div>
+        </div>
+        <div className="flex justify-center mt-8">
+          <Button>
+            <Link href={"/home"}>Back to Home</Link>
+          </Button>
         </div>
       </div>
     </section>

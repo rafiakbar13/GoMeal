@@ -8,12 +8,17 @@ import {
   UpdateCheckoutData,
   setCurrentStep,
 } from "@/redux/slices/checkoutSlice";
-import { stat } from "fs";
 import { useSession } from "next-auth/react";
 
-type Props = {};
+type Props = {
+  user: {
+    fullname: string;
+    email: string;
+    phone: string;
+  };
+};
 
-const PersonalDetailsForm = (props: Props) => {
+const PersonalDetailsForm = ({ user }: Props) => {
   const { data: session, status } = useSession();
   const userId = session?.user?.id;
   const dispatch = useDispatch();
@@ -49,6 +54,7 @@ const PersonalDetailsForm = (props: Props) => {
           register={register}
           required
           errors={errors}
+          defaultValue={user.fullname}
         />
         <FormInput
           label="Last Name"
@@ -64,13 +70,16 @@ const PersonalDetailsForm = (props: Props) => {
           register={register}
           required
           errors={errors}
+          defaultValue={user.email}
         />
         <FormInput
           label="Phone Number"
           name="phone"
+          type="tel"
           register={register}
           required
           errors={errors}
+          defaultValue={user.phone}
         />
       </div>
       <NavButtons />

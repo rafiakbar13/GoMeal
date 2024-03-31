@@ -20,21 +20,29 @@ import { postRequest } from "@/common/lib/api";
 import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { convertCurrency } from "@/common/lib/convertCurrency";
 
-type Props = {};
+type Props = {
+  user: {
+    balance: number;
+  };
+};
 
-const PaymentMethodForm = (props: Props) => {
+const PaymentMethodForm = ({ user }: Props) => {
   const [loading, setLoading] = React.useState(false);
   const dispatch = useDispatch();
   const currentStep = useSelector((state: any) => state.checkout.currentStep);
+  const cart = useSelector((state: any) => state.cart);
+  const subtotal = cart.reduce((acc: number, item: any) => {
+    return acc + item.price * item.qty;
+  }, 0);
+  const balance = user.balance;
+
   const existingFormData = useSelector(
     (state: any) => state.checkout.checkoutData
   );
 
   const {
-    register,
-    reset,
-    watch,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -46,10 +54,19 @@ const PaymentMethodForm = (props: Props) => {
   const [paymentMethod, setPaymentMethod] =
     React.useState(initialPaymentMethod);
   const onSubmit = async (data: any) => {
-    data.paymentMethod = paymentMethod;
-    // orderItems = cartItems;
-    dispatch(UpdateCheckoutData(data));
-    dispatch(setCurrentStep(currentStep + 1));
+    if (paymentMethod === "GoMealPay") {
+      if (balance >= subtotal) {
+        data.paymentMethod = paymentMethod;
+        dispatch(UpdateCheckoutData(data));
+        dispatch(setCurrentStep(currentStep + 1));
+      } else {
+        toast.error("Insufficient balance");
+      }
+    } else {
+      data.paymentMethod = paymentMethod;
+      dispatch(UpdateCheckoutData(data));
+      dispatch(setCurrentStep(currentStep + 1));
+    }
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -64,21 +81,20 @@ const PaymentMethodForm = (props: Props) => {
             <li>
               <input
                 type="radio"
-                id="hosting-small"
-                name="COD"
+                id="COD"
+                name="paymentMethod"
                 value="Cash On Delivery"
                 className="hidden peer"
-                required
                 onChange={(e) => setPaymentMethod(e.target.value)}
+                checked={paymentMethod === "Cash On Delivery"}
               />
               <label
-                htmlFor="hosting-small"
+                htmlFor="COD"
                 className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
               >
-                {/* Design */}
                 <div className="flex gap-2 items-center">
                   <Banknote className="w-8 h-8 ms-3 flex-shrink-0" />
-                  <p>Cash On Delivery</p>
+                  <p>Cash On Delivery</p>{" "}
                 </div>
                 <CircleIcon className="w-5 h-5 ms-3 flex-shrink-0 " />
               </label>
@@ -86,19 +102,23 @@ const PaymentMethodForm = (props: Props) => {
             <li>
               <input
                 type="radio"
-                id="goMealPay"
-                name="GoMealPay"
-                value="15"
+                id="balance"
+                name="paymentMethod"
+                value="GoMealPay"
                 className="hidden peer"
                 onChange={(e) => setPaymentMethod(e.target.value)}
+                checked={paymentMethod === "GoMealPay"}
               />
               <label
-                htmlFor="hosting-big"
+                htmlFor="balance"
                 className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
               >
-                <div className="flex gap-2 items-center">
-                  <CircleDollarSign className="w-8 h-8 ms-3 flex-shrink-0" />
-                  <p>GoMealPay</p>
+                <div className="flex flex-col items-center gap-y-3">
+                  <div className="flex gap-2 items-center">
+                    <CircleDollarSign className="w-8 h-8 ms-3 flex-shrink-0" />
+                    <p>GoMealPay</p>
+                  </div>
+                  <span>Your Balance: {convertCurrency(balance)}</span>
                 </div>
                 <CircleIcon className="w-5 h-5 ms-3 flex-shrink-0 " />
               </label>

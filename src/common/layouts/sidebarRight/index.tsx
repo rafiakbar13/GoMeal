@@ -15,10 +15,11 @@ import { useSession } from "next-auth/react";
 import { UserAvatar } from "../../components/UserAvatar";
 import Balance from "@/module/user/Balance/components/Balance";
 import Link from "next/link";
+import { toast } from "sonner";
 const SidebarRight = () => {
   const cart = useSelector((state: any) => state.cart);
   const pathname = usePathname();
-
+  const router = useRouter();
   if (
     pathname === "/favorite" ||
     pathname === "/history" ||
@@ -26,13 +27,16 @@ const SidebarRight = () => {
   )
     return null;
 
-  // const Checkout = (e: any) => {
-  //   e.preventDefault();
-  //   // const cart = JSON.parse(localStorage.getItem("cart") || "") || [];
-  //   console.log(cart);
-  // };
+  const Checkout = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    if (cart.length === 0) {
+      toast.error("Cart is empty");
+    } else {
+      router.push("/checkout");
+    }
+    console.log(cart);
+  };
 
-  const router = useRouter();
   const { data: session, status } = useSession();
   if (status === "loading") return null;
   if (status === "unauthenticated") {
@@ -71,11 +75,12 @@ const SidebarRight = () => {
                   Have a Coupon Code
                   <BiChevronRight className="ml-3" size={20} />
                 </Button>
-                <Link href="/checkout">
-                  <Button className="bg-primary text-white w-full mt-4 py-4">
-                    Checkout
-                  </Button>
-                </Link>
+                <Button
+                  className="bg-primary text-white w-full mt-4 py-4"
+                  onClick={Checkout}
+                >
+                  <Link href="">Checkout</Link>
+                </Button>
               </div>
             )}
           </div>

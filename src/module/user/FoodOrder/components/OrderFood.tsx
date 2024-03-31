@@ -115,7 +115,7 @@ const OrderFood = ({ data }: OrderProps) => {
               <CardFooter className="text-zinc-400 text-base font-normal font-['Poppins'] px-4">
                 <span
                   className={`w-full ${getStatusClass(
-                    order.orderStatus
+                    order.orderStatus.toLowerCase()
                   )} uppercase text-center `}
                 >
                   {order.orderStatus}
