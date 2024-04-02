@@ -126,7 +126,7 @@ enum TransactionType {
 
 enum OrderStatus {
   PENDING
-  CONFIRMED
+  ACCEPTED
   DELIVERED
   CANCELLED
 }

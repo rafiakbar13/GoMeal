@@ -9,6 +9,7 @@ const SortableColumn = ({ column, title }: any) => {
     <Button
       variant="ghost"
       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      className="text-zinc-950"
     >
       {title}
       <ArrowUpDown className="ml-2 h-4 w-4" />
