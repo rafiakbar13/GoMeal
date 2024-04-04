@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import Swal from "sweetalert2";
 import { Button } from "../../ui/button";
 import axios from "axios";
-export default function RejectButton({ endpoint, title }: any) {
+export default function RejectButton({ endpoint, title, status }: any) {
   const [loading, setLoading] = useState(false);
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const router = useRouter();
@@ -27,7 +27,12 @@ export default function RejectButton({ endpoint, title }: any) {
 
   return (
     <>
-      <Button onClick={handleAccept} variant={"ghost"} className="space-x-2">
+      <Button
+        disabled={status === "REJECTED"}
+        onClick={handleAccept}
+        variant={"ghost"}
+        className="space-x-2"
+      >
         <XCircle className="w-4 h-4 text-red-500" />
         <span>Reject</span>
       </Button>

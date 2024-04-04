@@ -7,13 +7,16 @@ import {
   CardFooter,
   CardTitle,
 } from "@/common/components/ui/card";
-type Props = {};
+import { convertCurrency } from "@/common/lib/convertCurrency";
+type Props = {
+  revenue: number;
+};
 
-const Income = (props: Props) => {
+const Income = ({ revenue }: Props) => {
   return (
     <Card>
       <CardContent className="p-5">
-        <span className="text-3xl font-bold">Rp. 1.000.000</span>
+        <span className="text-3xl font-bold">{convertCurrency(revenue)}</span>
       </CardContent>
     </Card>
   );

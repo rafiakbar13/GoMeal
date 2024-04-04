@@ -1,6 +1,6 @@
 import { db } from "@/common/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-
+import { getOrderStatusCount, getOrderCount } from "./getOrderCount";
 export async function POST(req: Request, res: Response) {
   try {
     const { checkoutData, orderItems } = await req.json();
@@ -140,10 +140,49 @@ export async function GET(request: NextRequest) {
         createdAt: "desc",
       },
       include: {
-        fooditems: true,
+        fooditems: {
+          include: {
+            food: true,
+          },
+        },
       },
     });
-    return NextResponse.json(orders, { status: 200 });
+
+    // Popular Foods
+    const foodCounts: any = {};
+
+    // Iterasi melalui setiap pesanan dan fooditems
+    orders.forEach((order: any) => {
+      order.fooditems.forEach((fooditem: any) => {
+        const foodName = fooditem.food.name;
+
+        // Jika makanan sudah ada dalam foodCounts, tambahkan jumlahnya, jika tidak, inisialisasi dengan 1
+        foodCounts[foodName] = (foodCounts[foodName] || 0) + 1;
+      });
+    });
+
+    // Mengubah foodCounts menjadi array agar bisa diurutkan
+    const popularFoods = Object.keys(foodCounts).map((foodName) => {
+      return { name: foodName, count: foodCounts[foodName] };
+    });
+
+    // Mengurutkan makanan berdasarkan jumlah pesanan secara menurun
+    popularFoods.sort((a, b) => b.count - a.count);
+
+    // Revenue
+    let revenue = 0;
+
+    // Menjumlahkan total dari setiap pesanan
+    orders.forEach((order: any) => {
+      revenue += order?.total;
+    });
+
+    const orderCounts = await getOrderStatusCount();
+    const getOrderCounts = await getOrderCount();
+    return NextResponse.json(
+      { orders, orderCounts, revenue, popularFoods },
+      { status: 200 }
+    );
   } catch (error) {
     console.log(error);
     return NextResponse.json(

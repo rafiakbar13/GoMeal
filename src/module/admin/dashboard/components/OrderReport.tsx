@@ -19,15 +19,23 @@ import {
 } from "lucide-react";
 type Props = {};
 
-const OrderReport = (props: Props) => {
+const OrderReport = ({ orderCounts, popularFoods }: any) => {
   const data = {
     backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-    labels: ["Red", "Blue", "Yellow"],
+    labels: popularFoods.map((food: any) => food.name),
     datasets: [
       {
-        label: "My First Dataset",
-        data: [300, 50, 100],
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+        label: "Populer Food",
+        data: popularFoods.map((food: any) => food.count),
+        backgroundColor: [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#8e5ea2",
+          "#3cba9f",
+          "#e8c3b9",
+          "#c45850",
+        ],
         hoverOffset: 4,
       },
     ],
@@ -60,9 +68,9 @@ const OrderReport = (props: Props) => {
             </i>
             <div className="flex-1 space-y-1">
               <p className="text-sm text-muted-foreground leading-none">
-                Total Order Complete
+                Total Order Pending
               </p>
-              <p className="text-xl font-semibold">1.000</p>
+              <p className="text-xl font-semibold">{orderCounts.pending}</p>
             </div>
           </div>
           {/* Total Order Delivered */}
@@ -74,7 +82,7 @@ const OrderReport = (props: Props) => {
               <p className="text-sm text-muted-foreground leading-none">
                 Total Order Delivered
               </p>
-              <p className="text-xl font-semibold">1.000</p>
+              <p className="text-xl font-semibold">{orderCounts.delivered}</p>
             </div>
           </div>
           {/* Total Order cancelled */}
@@ -86,7 +94,7 @@ const OrderReport = (props: Props) => {
               <p className="text-sm text-muted-foreground leading-none">
                 Total Order Cancelled
               </p>
-              <p className="text-xl font-semibold">1.000</p>
+              <p className="text-xl font-semibold">{orderCounts.cancelled}</p>
             </div>
           </div>
           {/* Order Pending */}
@@ -110,27 +118,21 @@ const OrderReport = (props: Props) => {
         </CardHeader>
         <Doughnut data={data} width={50} height={50} options={options} />
         <CardContent className="pt-3 flex flex-col gap-y-4">
-          <div className="flex items-center justify-between ">
-            <div className="flex items-center gap-4">
-              <div className="w-8 h-8 bg-yellow-500 rounded-md"></div>
-              <span>Burger</span>
+          {popularFoods.map((food: any, index: number) => (
+            <div key={index} className="flex items-center justify-between ">
+              <div className="flex items-center gap-4">
+                {/* You can use icons or colored circles for visualization */}
+                <div
+                  className="w-8 h-8 bg-yellow-500 rounded-md"
+                  style={{
+                    backgroundColor: data.datasets[0].backgroundColor[index],
+                  }}
+                ></div>
+                <span>{food.name}</span>
+              </div>
+              <span>{food.count}</span>
             </div>
-            <span>1000</span>
-          </div>
-          <div className="flex items-center justify-between ">
-            <div className="flex items-center gap-4">
-              <div className="w-8 h-8 bg-yellow-500 rounded-md"></div>
-              <span>Burger</span>
-            </div>
-            <span>1000</span>
-          </div>
-          <div className="flex items-center justify-between ">
-            <div className="flex items-center gap-4">
-              <div className="w-8 h-8 bg-yellow-500 rounded-md"></div>
-              <span>Burger</span>
-            </div>
-            <span>1000</span>
-          </div>
+          ))}
         </CardContent>
       </Card>
     </section>

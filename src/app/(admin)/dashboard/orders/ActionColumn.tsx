@@ -19,7 +19,7 @@ type Props = {
 };
 
 const ActionColumn = ({ row, title, endpoint }: Props) => {
-  const isActive = row.original.isActive;
+  const status = row.original.orderStatus;
 
   return (
     <DropdownMenu>
@@ -33,8 +33,8 @@ const ActionColumn = ({ row, title, endpoint }: Props) => {
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className="flex flex-col space-y-2">
-          <AcceptButton title={title} endpoint={endpoint} />
-          <RejectButton title={title} endpoint={endpoint} />
+          <AcceptButton status={status} title={title} endpoint={endpoint} />
+          <RejectButton status={status} title={title} endpoint={endpoint} />
         </div>
       </DropdownMenuContent>
     </DropdownMenu>
