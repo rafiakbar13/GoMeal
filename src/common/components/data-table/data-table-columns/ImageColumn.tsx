@@ -4,7 +4,6 @@ type Props = {};
 
 const ImageColumn = ({ row, accessorKey }: any) => {
   const imageUrl = row.getValue(`${accessorKey}`);
-  console.log(imageUrl);
 
   return (
     <div className="line-clamp-1">

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { convertCurrency } from "@/common/lib/convertCurrency";
 import {
+  clearCart,
   decrementQty,
   incrementQty,
   removeToCart,
@@ -71,6 +72,7 @@ const OrderSummary = (props: Props) => {
       if (response.status === 201) {
         toast.success(`Orders created successfully`);
         router.push(`/order-confirmation/${response.data.id}`);
+        dispatch(clearCart());
       } else {
         setLoading(false);
         toast.error(response.data.message);

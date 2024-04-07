@@ -34,7 +34,7 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         {filterKeys?.map((key) => (
-          <div className="relative flex w-2/5 items-center ">
+          <div className="relative flex w-2/5 items-center " key={key}>
             <Input
               type="search"
               className="focus-visible:ring-1 focus-visible:ring-primary pl-10 text-xs border-0 "

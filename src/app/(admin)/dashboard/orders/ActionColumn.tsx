@@ -11,6 +11,8 @@ import { Button } from "@/common/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import AcceptButton from "@/common/components/data-table/actions/AcceptBtn";
 import RejectButton from "@/common/components/data-table/actions/RejectBtn";
+import DeliveredButton from "@/common/components/data-table/actions/DeliveredBtn";
+import CompletedButton from "@/common/components/data-table/actions/CompleteBtn";
 
 type Props = {
   row: any;
@@ -35,6 +37,8 @@ const ActionColumn = ({ row, title, endpoint }: Props) => {
         <div className="flex flex-col space-y-2">
           <AcceptButton status={status} title={title} endpoint={endpoint} />
           <RejectButton status={status} title={title} endpoint={endpoint} />
+          <DeliveredButton status={status} title={title} endpoint={endpoint} />
+          <CompletedButton status={status} title={title} endpoint={endpoint} />
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

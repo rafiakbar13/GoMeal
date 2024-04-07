@@ -59,6 +59,8 @@ export const columns: ColumnDef<OrderWithFood>[] = [
     ),
     cell: ({ row }) => {
       const status = row?.original?.orderStatus?.toLowerCase();
+      console.log(status);
+
       return (
         <span className={`${getStatusClass(status ?? "")}`}>{status}</span>
       );

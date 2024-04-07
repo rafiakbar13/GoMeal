@@ -7,4 +7,6 @@ export const statusClassMap = {
     "bg-yellow-50 border border-yellow-300 text-yellow-500 hover:bg-yellow-50 hover:text-yellow-500 px-4 py-2  rounded-xl",
   rejected:
     "bg-red-50 border border-red-300 text-red-500 hover:bg-red-50 hover:text-red-500 px-4 py-2  rounded-xl",
+  delivered:
+    "bg-purple-50 border border-purple-300 text-purple-500 hover:bg-purple-50 hover:text-purple-500 px-4 py-2  rounded-xl",
 };
