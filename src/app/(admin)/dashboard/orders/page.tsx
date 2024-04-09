@@ -3,7 +3,7 @@ import PageHeading from "@/common/components/PageHeading";
 import { DataTable } from "@/common/components/data-table/data-table";
 import React, { Suspense } from "react";
 import { columns } from "./columns";
-import { getData } from "@/common/lib/getData";
+import { getData } from "@/common/lib/api";
 type Props = {};
 
 const Orders = async (props: Props) => {

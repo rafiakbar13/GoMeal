@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardFooter } from "@/common/components/ui/card";
 import Image from "next/image";
 import { Button } from "@/common/components/ui/button";
 import { AiOutlinePlus } from "react-icons/ai";
-import { getData } from "@/common/lib/getData";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { getData } from "@/common/lib/api";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Food } from "@prisma/client";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/redux/slices/cartSlice";
@@ -15,15 +15,17 @@ import { IoIosHeart } from "react-icons/io";
 import { FaRegHeart } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import axios from "axios";
-import { postRequest } from "@/common/lib/api";
-import { log } from "console";
 type Props = {};
 
-const PopularDishes = (props: Props) => {
+const PopularDishes = React.memo((props: Props) => {
   const dispatch = useDispatch();
   const [hoveredIndex, setHoveredIndex] = useState<null | number>(null);
+  const [favoriteFoodIds, setFavoriteFoodIds] = useState<Set<string>>(
+    new Set()
+  );
   const { data: session } = useSession();
   const user = session?.user?.id;
+  const queryClient = useQueryClient();
   const getDataLimited = async (menu: any) => {
     const response = await getData(menu);
     return response.slice(0, 6);
@@ -34,6 +36,18 @@ const PopularDishes = (props: Props) => {
     queryFn: () => getDataLimited("menu"),
   });
 
+  const { data: favorite } = useQuery<Food[]>({
+    queryKey: ["favorite"],
+    queryFn: () => getData(`favorite/${user}`),
+  });
+
+  useEffect(() => {
+    if (favorite) {
+      const ids = new Set(favorite.map((food) => food.id));
+      setFavoriteFoodIds(ids);
+    }
+  }, [favorite]);
+
   const handleAddToCart = (food: Food) => {
     dispatch(addToCart(food));
     toast.success("Added to cart");
@@ -43,6 +57,9 @@ const PopularDishes = (props: Props) => {
     mutationFn: (formData: { userId: string; foodId: string }) => {
       return axios.post("/api/favorite", formData);
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["favorite"] });
+    },
   });
 
   const RemoveFavorites = useMutation({
@@ -51,13 +68,10 @@ const PopularDishes = (props: Props) => {
         data: formData,
       });
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["favorite"] });
+    },
   });
-
-  const { data: favorite } = useQuery({
-    queryKey: ["favorite"],
-    queryFn: () => getData(`/favorite/${user}`),
-  });
-  // const isFavorite = favorite?.some((f: any) => f.id === foods?.id);
 
   const handleAddToFavorite = (food: any) => {
     const formData = {
@@ -66,6 +80,7 @@ const PopularDishes = (props: Props) => {
     };
     AddFavorites.mutate(formData);
     AddFavorites.isSuccess && toast.success("Added to favorite");
+    AddFavorites.isError && toast.error("Food already favorited by user");
   };
 
   const handleRemoveFromFavorite = (food: any) => {
@@ -76,8 +91,6 @@ const PopularDishes = (props: Props) => {
     RemoveFavorites.mutate(formData);
     RemoveFavorites.isSuccess && toast.success("Removed from favorite");
   };
-
-  // console.log(RemoveFavorites);
 
   return (
     <article className="mt-5">
@@ -107,15 +120,7 @@ const PopularDishes = (props: Props) => {
                 />
                 {hoveredIndex === i && (
                   <div>
-                    {/* {isFavorite ? (
-                      <Button
-                        variant={"icon"}
-                        className="absolute top-1 right-0 bg-transparent"
-                        onClick={() => handleAddToFavorite(food.id)}
-                      >
-                        <FaRegHeart size={24} />
-                      </Button>
-                    ) : (
+                    {favoriteFoodIds.has(food.id) ? (
                       <Button
                         variant={"icon"}
                         className="absolute top-1 right-0 bg-transparent"
@@ -123,14 +128,22 @@ const PopularDishes = (props: Props) => {
                       >
                         <IoIosHeart size={24} />
                       </Button>
-                    )} */}
-                    <Button
+                    ) : (
+                      <Button
+                        variant={"icon"}
+                        className="absolute top-1 right-0 bg-transparent"
+                        onClick={() => handleAddToFavorite(food.id)}
+                      >
+                        <FaRegHeart size={24} />
+                      </Button>
+                    )}
+                    {/* <Button
                       variant={"icon"}
                       className="absolute top-1 right-0 bg-transparent"
                       onClick={() => handleAddToFavorite(food.id)}
                     >
                       <FaRegHeart size={24} />
-                    </Button>
+                    </Button> */}
                   </div>
                 )}
               </CardContent>
@@ -155,6 +168,6 @@ const PopularDishes = (props: Props) => {
       </div>
     </article>
   );
-};
+});
 
 export default PopularDishes;

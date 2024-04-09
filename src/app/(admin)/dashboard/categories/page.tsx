@@ -3,7 +3,7 @@ import PageHeading from "@/common/components/PageHeading";
 import React from "react";
 import { DataTable } from "@/common/components/data-table/data-table";
 import { columns } from "./columns";
-import { getData } from "@/common/lib/getData";
+import { getData } from "@/common/lib/api";
 import { Category } from "@prisma/client";
 type Props = {
   category: Category[];

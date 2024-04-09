@@ -1,5 +1,5 @@
 import { convertCurrency } from "@/common/lib/convertCurrency";
-import { getData } from "@/common/lib/getData";
+import { getData } from "@/common/lib/api";
 import { Button } from "@/common/components/ui/button";
 import { CheckCircle2 } from "lucide-react";
 import Image from "next/image";

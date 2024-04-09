@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter } from "@/common/components/ui/card";
 import Image from "next/image";
 import type { Category } from "@/common/types/category";
 import { useQuery } from "@tanstack/react-query";
-import { getData } from "@/common/lib/getData";
+import { getData } from "@/common/lib/api";
 const Category = () => {
   const { data: categories, isLoading } = useQuery<Category[]>({
     queryKey: ["category"],

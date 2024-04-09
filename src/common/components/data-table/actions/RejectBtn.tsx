@@ -6,9 +6,9 @@ import { toast } from "sonner";
 import Swal from "sweetalert2";
 import { Button } from "../../ui/button";
 import axios from "axios";
+import { baseUrl } from "@/common/lib/api";
 export default function RejectButton({ endpoint, title, status }: any) {
   const [loading, setLoading] = useState(false);
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const router = useRouter();
   const handleAccept = async () => {
     try {

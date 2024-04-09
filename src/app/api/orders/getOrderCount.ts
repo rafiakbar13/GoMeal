@@ -16,11 +16,17 @@ export async function getOrderStatusCount() {
         orderStatus: "CANCELLED",
       },
     });
+    const completedCount = await db.order.count({
+      where: {
+        orderStatus: "COMPLETED",
+      },
+    });
 
     return {
       pending: pendingCount,
       delivered: deliveredCount,
       cancelled: cancelledCount,
+      completed: completedCount,
     };
   } catch (error) {
     console.error("Failed to get order counts:", error);

@@ -8,9 +8,9 @@ import { redirect } from "next/navigation";
 type Props = {};
 
 const DashboardPage = async (props: Props) => {
-  // const session = await getServerSession();
-  // if (!session && session?.user !== "ADMIN") {
-  //   redirect("/api/auth/signin?callbackUrl=/server");
+  const session = await getServerSession();
+  // if (!session && session?.user?.role !== "ADMIN") {
+  //   redirect("/login");
   // }
   return (
     <section className="px-10 py-10">

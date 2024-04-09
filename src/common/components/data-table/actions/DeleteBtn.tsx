@@ -5,10 +5,9 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
 import { Button } from "../../ui/button";
-
+import { baseUrl } from "@/common/lib/api";
 export default function DeleteBtn({ endpoint, title }: any) {
   const [loading, setLoading] = useState(false);
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const router = useRouter();
   async function handleDelete() {
     setLoading(true);

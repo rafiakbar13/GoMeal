@@ -6,11 +6,10 @@ import { toast } from "sonner";
 import Swal from "sweetalert2";
 import { Button } from "../../ui/button";
 import axios from "axios";
+import { baseUrl } from "@/common/lib/api";
 export default function AcceptButton({ endpoint, title, status }: any) {
-  console.log("endpoint", endpoint, "title", title, "status", status);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const handleAccept = async () => {
     try {
       const response = await axios.put(`${baseUrl}/api/${endpoint}`, {

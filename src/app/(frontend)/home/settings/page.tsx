@@ -2,7 +2,7 @@ import React from "react";
 import Setting from "@/module/user/Settings";
 import { AuthOptions, getServerSession } from "next-auth";
 import { authOptions } from "@/common/lib/authOptions";
-import { getData } from "@/common/lib/getData";
+import { getData } from "@/common/lib/api";
 type Props = {};
 
 const Settings = async (props: Props) => {

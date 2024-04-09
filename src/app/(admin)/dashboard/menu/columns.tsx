@@ -11,7 +11,20 @@ import ImageColumn from "@/common/components/data-table/data-table-columns/Image
 import SortableColumn from "@/common/components/data-table/data-table-columns/SortableColumn";
 import DateColumn from "@/common/components/data-table/data-table-columns/DateColumn";
 
-export const columns: ColumnDef<Food>[] = [
+type FoodProps = {
+  id: string;
+  name: string;
+  price: number;
+  image: string | null;
+  rating: number | null;
+  categoryId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  description: string | null;
+  category: { id: string; name: string } | null;
+};
+
+export const columns: ColumnDef<FoodProps>[] = [
   {
     id: "select",
     header: ({ table }) => (

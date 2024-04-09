@@ -38,7 +38,7 @@ export type SettingSchemaType = z.infer<typeof SettingSchema>;
 
 export const CreateCategoriesSchema = z.object({
   name: z.string().min(3, { message: "Name must be at least 3 characters" }),
-  image: z.string(),
+  image: z.string().url({ message: "Invalid image url" }),
 });
 
 export type CreateCategoriesSchemaType = z.infer<typeof CreateCategoriesSchema>;

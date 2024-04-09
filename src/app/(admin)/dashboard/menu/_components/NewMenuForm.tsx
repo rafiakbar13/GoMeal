@@ -6,7 +6,7 @@ import FormHeader from "@/common/components/FormHeader";
 import ImageInput from "@/common/components/ImageInput";
 import { useForm } from "react-hook-form";
 import SubmitButton from "@/common/components/SubmitButton";
-import { getData } from "@/common/lib/getData";
+import { getData } from "@/common/lib/api";
 import { Category } from "@prisma/client";
 import { postRequest } from "@/common/lib/api";
 import { useRouter } from "next/navigation";

@@ -5,12 +5,9 @@ import React from "react";
 import { DataTable } from "@/common/components/data-table/data-table";
 import { columns } from "./columns";
 import { Food } from "@prisma/client";
-import { getData } from "@/common/lib/getData";
-type Props = {
-  food: Food[] & { category: { name: string } }[];
-};
+import { getData } from "@/common/lib/api";
 
-const MenuPage = async ({ food }: Props) => {
+const MenuPage = async () => {
   const foods = await getData("menu");
 
   return (

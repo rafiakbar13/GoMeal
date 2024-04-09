@@ -5,7 +5,7 @@ import Image from "next/image";
 import Income from "@images/icon/Income.svg";
 import Profit from "@images/icon/Profit.svg";
 import Topup from "./Topup";
-import { getData } from "@/common/lib/getData";
+import { getData } from "@/common/lib/api";
 import { AuthOptions, getServerSession } from "next-auth";
 import { authOptions } from "@/common/lib/authOptions";
 import { useSession } from "next-auth/react";

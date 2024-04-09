@@ -8,11 +8,11 @@ import {
   CardTitle,
 } from "@/common/components/ui/card";
 import { convertCurrency } from "@/common/lib/convertCurrency";
-type Props = {
+interface RevenueProps {
   revenue: number;
-};
+}
 
-const Income = ({ revenue }: Props) => {
+const Income = ({ revenue }: RevenueProps) => {
   return (
     <Card>
       <CardContent className="p-5">

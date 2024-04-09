@@ -2,7 +2,7 @@ import React from "react";
 import OrderFood from "@/module/user/FoodOrder";
 import { AuthOptions, getServerSession } from "next-auth";
 import { authOptions } from "@/common/lib/authOptions";
-import { getData } from "@/common/lib/getData";
+import { getData } from "@/common/lib/api";
 import { DefaultSession } from "next-auth";
 type Props = {};
 

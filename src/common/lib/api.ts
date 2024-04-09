@@ -1,6 +1,7 @@
 import { toast } from "sonner";
-import axios from "axios";
-import { revalidatePath } from "next/cache";
+import axios, { AxiosResponse } from "axios";
+export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
+
 interface MakeRequestParams {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   endpoint: string;
@@ -20,7 +21,6 @@ export const postRequest = async ({
 }: MakeRequestParams) => {
   try {
     setLoading(true);
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const response = await axios.post(`${baseUrl}/${endpoint}`, data);
     if (response.status === 201) {
       toast.success(`${resourceName} created successfully`);
@@ -46,7 +46,6 @@ export const putRequest = async ({
 }: MakeRequestParams) => {
   try {
     setLoading(true);
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const response = await axios.put(`${baseUrl}/${endpoint}`, data);
     if (response.status === 200) {
       toast.success(`${resourceName} updated successfully`);
@@ -58,6 +57,46 @@ export const putRequest = async ({
     }
   } catch (error) {
     setLoading(false);
+    console.log(error);
+  }
+};
+
+export const deleteRequest = async ({
+  setLoading,
+  endpoint,
+  resourceName,
+  redirect,
+}: MakeRequestParams) => {
+  try {
+    setLoading(true);
+    const response = await axios.delete(`${baseUrl}/${endpoint}`);
+    if (response.status === 200) {
+      toast.success(`${resourceName} deleted successfully`);
+      redirect && redirect();
+    } else {
+      setLoading(false);
+      toast.error(response.data.message);
+    }
+  } catch (error) {
+    setLoading(false);
+    console.log(error);
+  }
+};
+
+/**
+ * Fetches data from the specified endpoint.
+ *
+ * @param endpoint - The endpoint to fetch data from.
+ * @returns A Promise that resolves to the fetched data.
+ * @throws If there is an error during the fetch.
+ */
+export const getData = async (endpoint: string): Promise<any> => {
+  try {
+    const response: AxiosResponse<any> = await axios.get(
+      `${baseUrl}/api/${endpoint}`
+    );
+    return response.data;
+  } catch (error: any) {
     console.log(error);
   }
 };

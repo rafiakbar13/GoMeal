@@ -38,4 +38,31 @@ export async function GET(req: NextRequest, { params }: any) {
   }
 }
 
-export async function DELETE() {}
+export async function DELETE(req: NextRequest, { params }: any) {
+  const { userId, foodId } = await req.json();
+  try {
+    const user = await db.user.findUnique({
+      where: { id: userId },
+      include: { favoriteFoods: true },
+    });
+
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    const updatedUser = await db.user.update({
+      where: { id: userId },
+      data: {
+        favoriteFoods: {
+          disconnect: { id: foodId },
+        },
+      },
+      include: { favoriteFoods: true },
+    });
+
+    return NextResponse.json(updatedUser.favoriteFoods as any, { status: 200 });
+  } catch (error) {
+    console.error("Error:", error);
+    return NextResponse.json("Internal Server Error", { status: 500 });
+  }
+}

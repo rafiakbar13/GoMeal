@@ -15,6 +15,7 @@ import { UpdateCheckoutData } from "@/redux/slices/checkoutSlice";
 import { toast } from "sonner";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { baseUrl } from "@/common/lib/api";
 type Props = {};
 
 const OrderSummary = (props: Props) => {
@@ -67,7 +68,6 @@ const OrderSummary = (props: Props) => {
     };
     try {
       setLoading(true);
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
       const response = await axios.post(`${baseUrl}/api/orders`, combinedData);
       if (response.status === 201) {
         toast.success(`Orders created successfully`);

@@ -1,7 +1,7 @@
 import React from "react";
 import { columns } from "./columns";
 import { DataTable } from "@/common/components/data-table/data-table";
-import { getData } from "@/common/lib/getData";
+import { getData } from "@/common/lib/api";
 import { AuthOptions, getServerSession } from "next-auth";
 import { authOptions } from "@/common/lib/authOptions";
 import { DefaultSession } from "next-auth";

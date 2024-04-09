@@ -1,5 +1,5 @@
 import { authOptions } from "@/common/lib/authOptions";
-import { getData } from "@/common/lib/getData";
+import { getData } from "@/common/lib/api";
 import Favorite from "@/module/user/Favorite";
 import { AuthOptions, getServerSession } from "next-auth";
 import React from "react";

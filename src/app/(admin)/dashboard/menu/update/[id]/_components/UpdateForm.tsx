@@ -42,14 +42,6 @@ const UpdateMenuForm = ({ food, categories }: any) => {
       },
     });
   };
-  /*
-    - This page is for the admin to manage categories
-    - name
-    - image
-    - jumlah food yang ada di category tersebut (relasi dengan food)
-    - edit
-    - delete
-*/
 
   return (
     <div className="w-full p-10">

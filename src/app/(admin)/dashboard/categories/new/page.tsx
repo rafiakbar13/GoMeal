@@ -26,6 +26,7 @@ const NewCategories = () => {
 
   const onSubmit = (data: any) => {
     data.image = imageUrl;
+
     postRequest({
       setLoading: setIsLoading,
       endpoint: "api/categories",
@@ -37,14 +38,6 @@ const NewCategories = () => {
       },
     });
   };
-  /*
-    - This page is for the admin to manage categories
-    - name
-    - image
-    - jumlah food yang ada di category tersebut (relasi dengan food)
-    - edit
-    - delete
-*/
 
   return (
     <div className="w-full p-10">

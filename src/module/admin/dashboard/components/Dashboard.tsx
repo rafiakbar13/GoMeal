@@ -2,13 +2,26 @@ import React from "react";
 import Income from "./Income";
 import OrderReport from "./OrderReport";
 import OrderRate from "./OrderRate";
-import { getData } from "@/common/lib/getData";
+import { getData } from "@/common/lib/api";
 
-type Props = {};
+interface OrderResponse {
+  orderCounts: {
+    pending: number;
+    delivered: number;
+    completed: number;
+    cancelled: number;
+  };
+  revenue: number;
+  popularFoods: {
+    name: string;
+    count: number;
+  }[];
+}
 
-const Dashboard = async (props: Props) => {
-  const orders = await getData("orders");
+const Dashboard = async (): Promise<JSX.Element> => {
+  const orders: OrderResponse = await getData("orders");
   const { orderCounts, revenue, popularFoods } = orders;
+
   return (
     <>
       {/* Total Income */}

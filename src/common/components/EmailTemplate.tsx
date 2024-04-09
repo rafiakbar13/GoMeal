@@ -11,7 +11,7 @@ import {
   Text,
 } from "@react-email/components";
 import * as React from "react";
-
+import { baseUrl } from "../lib/api";
 interface EmailTemplateProps {
   name?: string;
   redirectUrl?: string;
@@ -19,8 +19,6 @@ interface EmailTemplateProps {
   description?: string;
   subject?: string;
 }
-
-const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL!;
 
 const EmailTemplate: React.FC<EmailTemplateProps> = ({
   name = "",

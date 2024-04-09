@@ -17,16 +17,32 @@ import {
   CheckCircle2,
   HelpCircle,
 } from "lucide-react";
-type Props = {};
 
-const OrderReport = ({ orderCounts, popularFoods }: any) => {
+interface OrderReportProps {
+  orderCounts: {
+    pending: number;
+    delivered: number;
+    completed: number;
+    cancelled: number;
+  };
+  popularFoods: {
+    name: string;
+    count: number;
+  }[];
+}
+
+const OrderReport = ({ orderCounts, popularFoods }: OrderReportProps) => {
   const data = {
     backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-    labels: popularFoods.map((food: any) => food.name),
+    labels: popularFoods.map(
+      (food: { name: string; count: number }) => food.name
+    ),
     datasets: [
       {
         label: "Populer Food",
-        data: popularFoods.map((food: any) => food.count),
+        data: popularFoods.map(
+          (food: { name: string; count: number }) => food.count
+        ),
         backgroundColor: [
           "#FF6384",
           "#36A2EB",
@@ -106,7 +122,7 @@ const OrderReport = ({ orderCounts, popularFoods }: any) => {
               <p className="text-sm text-muted-foreground leading-none">
                 Total Order Complete
               </p>
-              <p className="text-xl font-semibold">1.000</p>
+              <p className="text-xl font-semibold">{orderCounts.completed}</p>
             </div>
           </div>
         </CardContent>

@@ -12,7 +12,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { putRequest } from "@/common/lib/api";
 import { useParams, useRouter } from "next/navigation";
-import { getData } from "@/common/lib/getData";
+import { getData } from "@/common/lib/api";
 
 const UpdateCategoriesForm = ({ categories }: any) => {
   const { id } = useParams();
