@@ -21,6 +21,17 @@ interface OrderResponse {
 const Dashboard = async (): Promise<JSX.Element> => {
   const orders: OrderResponse = await getData("orders");
   const { orderCounts, revenue, popularFoods } = orders;
+  if (
+    orderCounts === undefined ||
+    revenue === undefined ||
+    popularFoods === undefined
+  ) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-3xl font-bold">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <>

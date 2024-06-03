@@ -1,10 +1,8 @@
 import { db } from "@/common/lib/db";
-import { NextApiRequest } from "next";
-import { revalidatePath } from "next/cache";
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextApiRequest, { params }: any) {
+export async function GET(req: NextRequest, { params }: any) {
   try {
     const id = params.id;
     const categories = await db.category.findUnique({

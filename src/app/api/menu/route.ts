@@ -1,6 +1,6 @@
 import { db } from "@/common/lib/db";
 import { NextResponse } from "next/server";
-import { NextApiRequest } from "next";
+
 export async function POST(req: Request, res: Response) {
   try {
     const { name, categories, price, image, description } = await req.json();

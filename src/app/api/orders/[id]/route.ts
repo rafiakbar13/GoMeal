@@ -1,9 +1,9 @@
 import { db } from "@/common/lib/db";
-import { NextApiRequest } from "next";
+import { NextRequest } from "next";
 
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextApiRequest, { params }: any) {
+export async function GET(req: NextRequest, { params }: any) {
   try {
     const id = params.id;
     const order = await db.order.findUnique({

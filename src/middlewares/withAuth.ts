@@ -27,7 +27,7 @@ export default function withAuth(
         return NextResponse.redirect(url);
       }
       if (token.role === "ADMIN" && onlyAdmin.includes(pathname)) {
-        return NextResponse.redirect(new URL("/", req.url));
+        return NextResponse.redirect(new URL("/dashboard", req.url));
       }
     }
     return middleware(req, next);

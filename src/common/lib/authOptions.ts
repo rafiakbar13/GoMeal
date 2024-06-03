@@ -84,7 +84,7 @@ export const authOptions = {
         token.image = user.image;
         token.emailVerified = user.emailVerified;
       }
-      console.log(`token:${token}`);
+      // console.dir(`token:${JSON.stringify(token, null, 2)}`);
       return token;
     },
     async session({ session, token }: any) {

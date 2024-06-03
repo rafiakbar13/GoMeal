@@ -5,11 +5,8 @@ import { DataTable } from "@/common/components/data-table/data-table";
 import { columns } from "./columns";
 import { getData } from "@/common/lib/api";
 import { Category } from "@prisma/client";
-type Props = {
-  category: Category[];
-};
 
-const CategoriesPage = async ({ category }: Props) => {
+const CategoriesPage = async () => {
   const categories = await getData("categories");
   return (
     <section className="px-10 py-10">

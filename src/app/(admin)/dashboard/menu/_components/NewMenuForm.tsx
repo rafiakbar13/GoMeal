@@ -38,6 +38,7 @@ const NewMenuForm = ({ categories }: Props) => {
         router.push("/dashboard/menu");
       },
     });
+    console.log(data);
   };
   /*
     - This page is for the admin to manage menu
